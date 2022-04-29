@@ -55,6 +55,16 @@ namespace USN_ControlSystem_NI_MS
             txtError.Text = value;
         }
 
+        public void AppendStatusTextBox(string value)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<string>(AppendStatusTextBox), new object[] { value });
+                return;
+            }
+            lblStatus.Text = value;
+        }
+
         public async Task ControlAirHeater(PIDController pidControl, DAQReader daqReader, DAQWriter daqWriter)
         {
             try
@@ -84,8 +94,8 @@ namespace USN_ControlSystem_NI_MS
             }
             catch (NationalInstruments.DAQmx.DaqException e)
             {
+                AppendStatusTextBox("Restart required.");
                 System.Windows.Forms.MessageBox.Show($"Error controlling air heater. {e.Message}");
-                lblControl.Text = "Restart required.";
             }
         }
 

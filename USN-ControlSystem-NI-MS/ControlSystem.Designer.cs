@@ -44,21 +44,21 @@ namespace USN_ControlSystem_NI_MS
             this.tcView = new System.Windows.Forms.TabControl();
             this.Values = new System.Windows.Forms.TabPage();
             this.Settings = new System.Windows.Forms.TabPage();
+            this.btnSetSetpoint = new System.Windows.Forms.Button();
+            this.neTd = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.neTi = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.neGain = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.lblTd = new System.Windows.Forms.Label();
             this.lblTi = new System.Windows.Forms.Label();
             this.lblKp = new System.Windows.Forms.Label();
-            this.neGain = new NationalInstruments.UI.WindowsForms.NumericEdit();
-            this.neTi = new NationalInstruments.UI.WindowsForms.NumericEdit();
-            this.neTd = new NationalInstruments.UI.WindowsForms.NumericEdit();
-            this.btnSetSetpoint = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.wfgTemperature)).BeginInit();
             this.tcView.SuspendLayout();
             this.Values.SuspendLayout();
             this.Settings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.neGain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.neTi)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTi)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neGain)).BeginInit();
             this.SuspendLayout();
             // 
             // wfgTemperature
@@ -189,6 +189,37 @@ namespace USN_ControlSystem_NI_MS
             this.Settings.Text = "Settings";
             this.Settings.UseVisualStyleBackColor = true;
             // 
+            // btnSetSetpoint
+            // 
+            this.btnSetSetpoint.Location = new System.Drawing.Point(247, 135);
+            this.btnSetSetpoint.Name = "btnSetSetpoint";
+            this.btnSetSetpoint.Size = new System.Drawing.Size(75, 20);
+            this.btnSetSetpoint.TabIndex = 6;
+            this.btnSetSetpoint.Text = "Set";
+            this.btnSetSetpoint.UseVisualStyleBackColor = true;
+            this.btnSetSetpoint.Click += new System.EventHandler(this.btnSetSetpoint_Click);
+            // 
+            // neTd
+            // 
+            this.neTd.Location = new System.Drawing.Point(141, 96);
+            this.neTd.Name = "neTd";
+            this.neTd.Size = new System.Drawing.Size(120, 20);
+            this.neTd.TabIndex = 5;
+            // 
+            // neTi
+            // 
+            this.neTi.Location = new System.Drawing.Point(141, 63);
+            this.neTi.Name = "neTi";
+            this.neTi.Size = new System.Drawing.Size(120, 20);
+            this.neTi.TabIndex = 4;
+            // 
+            // neGain
+            // 
+            this.neGain.Location = new System.Drawing.Point(141, 29);
+            this.neGain.Name = "neGain";
+            this.neGain.Size = new System.Drawing.Size(120, 20);
+            this.neGain.TabIndex = 3;
+            // 
             // lblTd
             // 
             this.lblTd.AutoSize = true;
@@ -216,46 +247,17 @@ namespace USN_ControlSystem_NI_MS
             this.lblKp.TabIndex = 0;
             this.lblKp.Text = "Gain";
             // 
-            // neGain
-            // 
-            this.neGain.Location = new System.Drawing.Point(141, 29);
-            this.neGain.Name = "neGain";
-            this.neGain.Size = new System.Drawing.Size(120, 20);
-            this.neGain.TabIndex = 3;
-            // 
-            // neTi
-            // 
-            this.neTi.Location = new System.Drawing.Point(141, 63);
-            this.neTi.Name = "neTi";
-            this.neTi.Size = new System.Drawing.Size(120, 20);
-            this.neTi.TabIndex = 4;
-            // 
-            // neTd
-            // 
-            this.neTd.Location = new System.Drawing.Point(141, 96);
-            this.neTd.Name = "neTd";
-            this.neTd.Size = new System.Drawing.Size(120, 20);
-            this.neTd.TabIndex = 5;
-            // 
-            // btnSetSetpoint
-            // 
-            this.btnSetSetpoint.Location = new System.Drawing.Point(247, 135);
-            this.btnSetSetpoint.Name = "btnSetSetpoint";
-            this.btnSetSetpoint.Size = new System.Drawing.Size(75, 20);
-            this.btnSetSetpoint.TabIndex = 6;
-            this.btnSetSetpoint.Text = "Set";
-            this.btnSetSetpoint.UseVisualStyleBackColor = true;
-            this.btnSetSetpoint.Click += new System.EventHandler(this.btnSetSetpoint_Click);
-            // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(47, 288);
+            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 32F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Location = new System.Drawing.Point(21, 283);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(0, 13);
+            this.lblStatus.Size = new System.Drawing.Size(82, 51);
             this.lblStatus.TabIndex = 10;
+            this.lblStatus.Text = "ttttt";
             // 
-            // Form1
+            // ControlSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -263,7 +265,7 @@ namespace USN_ControlSystem_NI_MS
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.tcView);
             this.Controls.Add(this.wfgTemperature);
-            this.Name = "Form1";
+            this.Name = "ControlSystem";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.wfgTemperature)).EndInit();
             this.tcView.ResumeLayout(false);
@@ -271,9 +273,9 @@ namespace USN_ControlSystem_NI_MS
             this.Values.PerformLayout();
             this.Settings.ResumeLayout(false);
             this.Settings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.neGain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.neTi)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTi)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neGain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
