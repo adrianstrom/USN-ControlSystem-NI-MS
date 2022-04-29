@@ -8,7 +8,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
         public double Ti { get; set; }
         public double Td { get; set; }
 
-        public double OutputMinimum { get; set; } = 1;
+        public double OutputMinimum { get; set; } = 0;
         public double OutputMaximum { get; set; } = 5;
 
         public double TimeStep { get; set; }

@@ -6,11 +6,11 @@ using static USN_ControlSystem_NI_MS.Controllers.DAQReader;
 
 namespace USN_ControlSystem_NI_MS
 {
-    public partial class Form1 : Form
+    public partial class ControlSystem : Form
     {
         private PIDController _pidController;
 
-        public Form1()
+        public ControlSystem()
         {
             InitializeComponent();
             _pidController = new PIDController(0.5, 10, 0);
@@ -19,6 +19,8 @@ namespace USN_ControlSystem_NI_MS
             txtSetPoint.Text = _pidController.SetPoint.ToString();
             var temperatureDaqHandler = new DAQReader("Dev2/ai0", 1, 5);
             var controlDaqHandler = new DAQWriter("Dev2/ao1", 0, 5);
+            txtControl.Enabled = false;
+            txtTemperature.Enabled = false;
 
             Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
         }
@@ -74,7 +76,7 @@ namespace USN_ControlSystem_NI_MS
 
                     // Write control signal to heater.
                     var u = pidControl.GetControlSignal();
-                    AppendControlTextBox(String.Format("{0:0.00}", u));
+                    AppendControlTextBox(String.Format("{0:0.00}", 1));
                     daqWriter.WriteToDAQ(u);
 
                     await Task.Delay(1000);

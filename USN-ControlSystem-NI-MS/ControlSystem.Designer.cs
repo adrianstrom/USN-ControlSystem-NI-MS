@@ -1,7 +1,7 @@
 ﻿
 namespace USN_ControlSystem_NI_MS
 {
-    partial class Form1
+    partial class ControlSystem
     {
         /// <summary>
         /// Required designer variable.
