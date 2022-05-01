@@ -148,6 +148,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AirHeaterModel.cs" />
     <Compile Include="Controllers\DAQHandler.cs" />
     <Compile Include="Controllers\PIDController.cs" />
     <Compile Include="ControlSystem.cs">
