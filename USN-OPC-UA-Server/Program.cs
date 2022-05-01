@@ -1,5 +1,6 @@
 ﻿using Opc.UaFx;
 using Opc.UaFx.Server;
+using System;
 using System.Threading;
 
 namespace USN_OPC_UA_Server
@@ -19,12 +20,22 @@ namespace USN_OPC_UA_Server
                 acl.IsEnabled = true;
                 server.Start();
 
+                server.SessionCreated += SessionCreated;
+
                 while (true)
                 {
+                    Console.WriteLine($"{temperature.Id}: {temperature.Value}");
+                    Console.WriteLine($"{controlSignal.Id}: {controlSignal.Value}");
+                    temperature.ApplyChanges(server.SystemContext);
                     parent.ApplyChanges(server.SystemContext);
                     Thread.Sleep(1000);
                 }
             }
+        }
+
+        private static void SessionCreated(object sender, OpcSessionEventArgs e)
+        {
+            Console.WriteLine($"[{e.Session.ConnectTime}] Session created.");
         }
     }
 }
