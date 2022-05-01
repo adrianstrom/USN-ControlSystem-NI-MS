@@ -86,8 +86,8 @@ namespace USN_ControlSystem_NI_MS
 
                     // Write control signal to heater.
                     var u = pidControl.GetControlSignal();
-                    AppendControlTextBox(String.Format("{0:0.00}", 1));
-                    daqWriter.WriteToDAQ(u);
+                    AppendControlTextBox(String.Format("{0:0.00}", u));
+                    daqWriter.WriteToDAQ(1);
 
                     await Task.Delay(1000);
                 }
