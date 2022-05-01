@@ -10,6 +10,7 @@ namespace USN_OPC_UA_Server
         {
             var parent = new OpcFolderNode("USN");
             var temperature = new OpcDataVariableNode<double>(parent, "temperature");
+            var controlSignal = new OpcDataVariableNode<double>(parent, "controlSignal");
 
             using (var server = new OpcServer("opc.tcp://localhost:4840/", parent))
             {

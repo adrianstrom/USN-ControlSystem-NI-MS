@@ -149,7 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\DAQHandler.cs" />
-    <Compile Include="Controllers\OPCWriter.cs" />
     <Compile Include="Controllers\PIDController.cs" />
     <Compile Include="ControlSystem.cs">
       <SubType>Form</SubType>
