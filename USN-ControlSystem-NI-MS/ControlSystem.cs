@@ -15,21 +15,18 @@ namespace USN_ControlSystem_NI_MS
         public ControlSystem()
         {
             InitializeComponent();
-            //InitializePID();
+            InitializePID();
 
-            //txtSetPoint.Text = _pidController.SetPoint.ToString();
+            txtSetPoint.Text = _pidController.SetPoint.ToString();
 
-            //var temperatureDaqHandler = new DAQReader("Dev2/ai0", 1, 5);
-            //var controlDaqHandler = new DAQWriter("Dev2/ao1", 0, 5);
+            var temperatureDaqHandler = new DAQReader("Dev2/ai0", 1, 5);
+            var controlDaqHandler = new DAQWriter("Dev2/ao1", 0, 5);
 
-            //txtControl.Enabled = false;
-            //txtTemperature.Enabled = false;
+            txtControl.Enabled = false;
+            txtTemperature.Enabled = false;
 
             InitializeOPC();
-
-            //Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
-
-            Task.Run(async () => await ControlAirHeater());
+            Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
         }
 
         private void InitializeOPC()
