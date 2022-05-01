@@ -26,6 +26,8 @@ namespace USN_ControlSystem_NI_MS
             txtTemperature.Enabled = false;
 
             _opcClient = new OpcClient("opc.tcp://localhost:4840/");
+            _opcClient.Security.UserIdentity =
+                new OpcClientIdentity("usn_system_user", "usn.password!");
 
             Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
         }

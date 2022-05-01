@@ -14,6 +14,9 @@ namespace USN_OPC_UA_Server
 
             using (var server = new OpcServer("opc.tcp://localhost:4840/", parent))
             {
+                var acl = server.Security.UserNameAcl;
+                acl.AddEntry("usn_system_user", "usn.password!");
+                acl.IsEnabled = true;
                 server.Start();
 
                 while (true)
