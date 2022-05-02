@@ -8,6 +8,11 @@
 
         private double _previous;
 
-        public double GetFilteredValue(double measuredValue) => (1 - Amplitude) * _previous + Amplitude * measuredValue;
+        public double GetFilteredValue(double measuredValue)
+        {
+            var output = (1 - Amplitude) * _previous + Amplitude * measuredValue;
+            _previous = output;
+            return output;
+        }
     }
 }
