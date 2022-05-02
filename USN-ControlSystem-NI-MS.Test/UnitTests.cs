@@ -11,16 +11,18 @@ namespace USN_ControlSystem_NI_MS.Test
         public void Test_EulerMethod_Output()
         {
             // arrange
-            var euler = new ForwardEuler(20, TimeSpan.FromSeconds(1));
+            // y' = y
+            var euler = new ForwardEuler(1, TimeSpan.FromSeconds(1));
 
             // act
-            for (var i = 0; i > 5; i++)
+            for (var i = 0; i < 4; i++)
             {
-                euler.Integrate(0);
+                var valueFromModel = i;
+                euler.Integrate(valueFromModel);
             }
 
             // assert
-            Assert.AreEqual(10, euler.IntegratedValue);
+            Assert.AreEqual(16, euler.IntegratedValue);
         }
 
         [TestMethod]

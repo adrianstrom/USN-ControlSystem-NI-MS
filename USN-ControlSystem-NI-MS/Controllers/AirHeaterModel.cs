@@ -2,67 +2,18 @@
 
 namespace USN_ControlSystem_NI_MS.Controllers
 {
-    public class ForwardEuler
-    {
-        public ForwardEuler(double initialValue, TimeSpan timeStep)
-        {
-            InitialValue = initialValue;
-            TimeStep = timeStep;
-        }
-
-        private bool Initial { get; set; }
-
-        public int NumberOfTimesIntegrated { get; set; }
-
-        public double InitialValue { get; private set; }
-
-        public TimeSpan TimeStep { get; private set; }
-
-        public double IntegratedValue { get; set; }
-
-        public double Y_previous { get; set; }
-        public double Y_min { get; set; }
-        public double Y_max { get; set; }
-
-        public void Integrate(double valueFromModel)
-        {
-            if (Initial)
-            {
-                Initial = false;
-                Y_previous = InitialValue;
-            }
-            IntegratedValue = Clamp(Y_previous * TimeStep.TotalSeconds * valueFromModel);
-            NumberOfTimesIntegrated++;
-        }
-
-        private double Clamp(double value)
-        {
-            if (value <= Y_min)
-            {
-                return Y_min;
-            }
-            if (value >= Y_max)
-            {
-                return Y_max;
-            }
-            return value;
-        }
-    }
-
     public class AirHeaterModel
     {
         private ForwardEuler _euler;
 
         public AirHeaterModel()
         {
-            _euler = new ForwardEuler();
-            _euler.InitialValue = InitialTemperature;
-            _euler.TimeStep = 1;
+            _euler = new ForwardEuler(InitialTemperature, TimeSpan.FromSeconds(1));
         }
 
         public void Output()
         {
-            TemperatureTubeOutlet = _euler.Integrate(CalculateTemperatureRateOfChange());
+            //TemperatureTubeOutlet = _euler.Integrate(CalculateTemperatureRateOfChange());
         }
 
         public double InitialTemperature { get; set; }
