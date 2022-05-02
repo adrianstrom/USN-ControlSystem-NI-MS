@@ -1,12 +1,22 @@
-﻿namespace USN_ControlSystem_NI_MS.Controllers
+﻿using System;
+
+namespace USN_ControlSystem_NI_MS.Controllers
 {
     public class ForwardEuler
     {
-        public bool Initial { get; private set; }
+        public ForwardEuler(double initialValue, TimeSpan timeStep)
+        {
+            InitialValue = initialValue;
+            TimeStep = timeStep;
+        }
 
-        public double InitialValue { get; set; }
+        private bool Initial { get; set; }
 
-        public double TimeStep { get; set; }
+        public int NumberOfTimesIntegrated { get; set; }
+
+        public double InitialValue { get; private set; }
+
+        public TimeSpan TimeStep { get; private set; }
 
         public double IntegratedValue { get; set; }
 
@@ -21,7 +31,8 @@
                 Initial = false;
                 Y_previous = InitialValue;
             }
-            IntegratedValue = Clamp(Y_previous * TimeStep * valueFromModel);
+            IntegratedValue = Clamp(Y_previous * TimeStep.TotalSeconds * valueFromModel);
+            NumberOfTimesIntegrated++;
         }
 
         private double Clamp(double value)
