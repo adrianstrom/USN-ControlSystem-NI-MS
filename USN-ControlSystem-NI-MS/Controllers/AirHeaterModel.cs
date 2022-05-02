@@ -2,7 +2,7 @@
 {
     public class ForwardEuler
     {
-        public bool Initial { get; set; }
+        public bool Initial { get; private set; }
 
         public double InitialValue { get; set; }
 
@@ -40,6 +40,20 @@
 
     public class AirHeaterModel
     {
+        private ForwardEuler _euler;
+
+        public AirHeaterModel()
+        {
+            _euler = new ForwardEuler();
+            _euler.InitialValue = InitialTemperature;
+            _euler.TimeStep = 1;
+        }
+
+        public void Output()
+        {
+            TemperatureTubeOutlet = _euler.Integrate(CalculateTemperatureRateOfChange());
+        }
+
         public double InitialTemperature { get; set; }
 
         public double TemperatureTubeOutlet { get; set; }
@@ -48,8 +62,7 @@
         public double ControlSignal { get; set; }
         public int TimeConstant { get; set; } = 22;
         public double HeaterGain { get; set; } = 3.5;
-        public int TimeDelay { get; set; }
-        public double TimeStep { get; set; }
+        public int TimeDelay { get; set; } // Add time delay
         public double TemperatureRateOfChange { get; set; }
 
         public bool Initial { get; set; }
