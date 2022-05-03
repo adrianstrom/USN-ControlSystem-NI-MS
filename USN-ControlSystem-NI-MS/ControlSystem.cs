@@ -34,6 +34,7 @@ namespace USN_ControlSystem_NI_MS
             _opcClient = new OpcClient("opc.tcp://localhost:4840/");
             _opcClient.Security.UserIdentity =
                 new OpcClientIdentity("usn_system_user", "usn.password!");
+            _opcClient.SessionName = "Control System application";
             _opcClient.Connect();
         }
 
@@ -62,8 +63,8 @@ namespace USN_ControlSystem_NI_MS
                     daqWriter.WriteToDAQ(u);
 
                     // Write values to OPC UA Server.
-                    _opcClient.WriteNode("ns=2;s=USN/temperature", temperature);
-                    _opcClient.WriteNode("ns=2;s=USN/controlSignal", u);
+                    _opcClient.WriteNode("ns=2;s=MeasurementSites/USN/Temperature", temperature);
+                    _opcClient.WriteNode("ns=2;s=MeasurementSites/USN/ControlSignal", u);
 
                     await Task.Delay(1000);
                 }
