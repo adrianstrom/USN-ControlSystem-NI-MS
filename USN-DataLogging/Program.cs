@@ -2,6 +2,7 @@
 using Opc.UaFx.Client;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -56,13 +57,14 @@ namespace USN_DataLogging
         static async Task Main(string[] args)
         {
             await Task.Delay(2000);
-            var connectionString = "Data Source=NO01NBSTROMA01\\SQLEXPRESS;Initial Catalog=MeasurementSites;Persist Security Info=True;User ID=sa;Password=admin123!";
+            var connectionString = ConfigurationManager.AppSettings["connectionString"];
+            var measurementSite = ConfigurationManager.AppSettings["measurementSite"];
             var opcClient = GetOpcClient();
             opcClient.Connect();
 
             var sqlHandler = new SqlHandler(connectionString);
 
-            var opcNodes = opcClient.BrowseNode("ns=2;s=MeasurementSites/USN");
+            var opcNodes = opcClient.BrowseNode($"ns=2;s=MeasurementSites/{measurementSite}");
             var sqlItemIds = sqlHandler.GetSqlOpcItems();
 
             foreach (var child in opcNodes.Children(OpcNodeCategory.Variable))
@@ -71,17 +73,18 @@ namespace USN_DataLogging
                 {
                     if (child.NodeId == itemId)
                     {
+                        Console.WriteLine($"Match between sql itemid and OPC server itemid for {itemId}. Creating seperate task for storing measurement data.");
                         await Task.Run(async () => await StoreMeasurementData());
                     }
                 }
 
             }
-            await Task.Delay(1000);
+            Console.ReadLine();
         }
 
         public static async Task StoreMeasurementData()
         {
-
+            // insert measurement data into db.
         }
     }
 }

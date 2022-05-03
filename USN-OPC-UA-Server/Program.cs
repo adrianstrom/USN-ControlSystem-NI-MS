@@ -1,6 +1,7 @@
 ﻿using Opc.UaFx;
 using Opc.UaFx.Server;
 using System;
+using System.Configuration;
 using System.Threading.Tasks;
 
 namespace USN_OPC_UA_Server
@@ -13,8 +14,9 @@ namespace USN_OPC_UA_Server
             var locationUSN = new OpcFolderNode(root, "USN");
             var temperature = new OpcDataVariableNode<double>(locationUSN, "Temperature");
             var controlSignal = new OpcDataVariableNode<double>(locationUSN, "ControlSignal");
+            var opcHostName = ConfigurationManager.AppSettings["opcHostAddress"];
 
-            using (var server = new OpcServer("opc.tcp://localhost:4840/", root))
+            using (var server = new OpcServer(opcHostName, root))
             {
                 var acl = server.Security.UserNameAcl;
                 acl.AddEntry("usn_system_user", "usn.password!");
