@@ -74,7 +74,7 @@ namespace USN_DataLogging
                     if (child.NodeId == itemId)
                     {
                         Console.WriteLine($"Match between sql itemid and OPC server itemid for {itemId}. Creating seperate task for storing measurement data.");
-                        await Task.Run(async () => await StoreMeasurementData());
+                        await Task.Run(async () => await StoreMeasurementDataAndListenToAlarms());
                     }
                 }
 
@@ -82,7 +82,7 @@ namespace USN_DataLogging
             Console.ReadLine();
         }
 
-        public static async Task StoreMeasurementData()
+        public static async Task StoreMeasurementDataAndListenToAlarms()
         {
             // insert measurement data into db.
         }
