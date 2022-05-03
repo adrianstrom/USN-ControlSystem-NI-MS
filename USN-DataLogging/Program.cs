@@ -47,18 +47,20 @@ namespace USN_DataLogging
     {
         public static OpcClient GetOpcClient()
         {
-            var opcClient = new OpcClient("opc.tcp://localhost:4840/");
-            opcClient.Security.UserIdentity =
-                new OpcClientIdentity("usn_system_user", "usn.password!");
+            var opcHostName = ConfigurationManager.AppSettings["opcHostName"];
+            var opcClient = new OpcClient(opcHostName);
+            opcClient.Security.UserIdentity = new OpcClientIdentity("usn_system_user", "usn.password!");
             opcClient.SessionName = "DataLogging application";
             return opcClient;
         }
 
         static async Task Main(string[] args)
         {
-            await Task.Delay(2000);
+            // Get application settings.
             var connectionString = ConfigurationManager.AppSettings["connectionString"];
             var measurementSite = ConfigurationManager.AppSettings["measurementSite"];
+
+            // Connect to OPC client.
             var opcClient = GetOpcClient();
             opcClient.Connect();
 
