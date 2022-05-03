@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USN-OPC-UA-Server", "USN-OP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USN-ControlSystem-NI-MS.Test", "USN-ControlSystem-NI-MS.Test\USN-ControlSystem-NI-MS.Test.csproj", "{36F5EFD2-19F4-458F-B048-2A23B185C7D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USN-DataLogging", "USN-DataLogging\USN-DataLogging.csproj", "{A39B5C8E-D888-4CB2-9413-5A8A33D7EC66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{36F5EFD2-19F4-458F-B048-2A23B185C7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36F5EFD2-19F4-458F-B048-2A23B185C7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36F5EFD2-19F4-458F-B048-2A23B185C7D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A39B5C8E-D888-4CB2-9413-5A8A33D7EC66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A39B5C8E-D888-4CB2-9413-5A8A33D7EC66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A39B5C8E-D888-4CB2-9413-5A8A33D7EC66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A39B5C8E-D888-4CB2-9413-5A8A33D7EC66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace USN_ControlSystem_NI_MS.Controllers
+﻿namespace USN_ControlSystem_NI_MS.Controllers
 {
-    public class AirHeaterModel
+    public class AirHeaterModel : SimulatorBase
     {
         private ForwardEuler _euler;
 
         public AirHeaterModel()
         {
-            _euler = new ForwardEuler(InitialTemperature, TimeSpan.FromSeconds(1));
+            _euler = new ForwardEuler(InitialTemperature, TimeStep);
         }
 
         public void Output()

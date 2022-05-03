@@ -1,13 +1,13 @@
 ﻿using Opc.UaFx;
 using Opc.UaFx.Server;
 using System;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace USN_OPC_UA_Server
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var parent = new OpcFolderNode("USN");
             var temperature = new OpcDataVariableNode<double>(parent, "temperature");
@@ -24,11 +24,11 @@ namespace USN_OPC_UA_Server
 
                 while (true)
                 {
-                    Console.WriteLine($"{temperature.Id}: {temperature.Value}");
-                    Console.WriteLine($"{controlSignal.Id}: {controlSignal.Value}");
+                    Console.WriteLine($"[OPC UA Server] [{DateTime.UtcNow}] {temperature.Id}: {temperature.Value}");
+                    Console.WriteLine($"[OPC UA Server] [{DateTime.UtcNow}] {controlSignal.Id}: {controlSignal.Value}");
                     temperature.ApplyChanges(server.SystemContext);
                     parent.ApplyChanges(server.SystemContext);
-                    Thread.Sleep(1000);
+                    await Task.Delay(1000);
                 }
             }
         }

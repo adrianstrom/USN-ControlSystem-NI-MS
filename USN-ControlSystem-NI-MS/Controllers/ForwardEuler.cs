@@ -10,7 +10,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
             TimeStep = timeStep;
         }
 
-        private bool Initial { get; set; } = true;
+        private bool _initial = true;
 
         public int NumberOfTimesIntegrated { get; set; }
 
@@ -26,10 +26,10 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         public void Integrate(double valueFromModel)
         {
-            if (Initial)
+            if (_initial)
             {
                 Y_previous = InitialValue;
-                Initial = false;
+                _initial = false;
             }
             IntegratedValue = Clamp(Y_previous + TimeStep.TotalSeconds * valueFromModel);
             NumberOfTimesIntegrated++;
