@@ -56,6 +56,8 @@ namespace USN_DataLogging
 
         static async Task Main(string[] args)
         {
+            await Task.Delay(2000);
+
             // Get application settings.
             var connectionString = ConfigurationManager.AppSettings["connectionString"];
             var measurementSite = ConfigurationManager.AppSettings["measurementSite"];
