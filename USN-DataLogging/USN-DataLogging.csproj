@@ -122,6 +122,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\AlarmManager.cs" />
+    <Compile Include="DataTypes\AlarmType.cs" />
+    <Compile Include="DataTypes\PreConfiguredAlarm.cs" />
+    <Compile Include="DataTypes\Quality.cs" />
+    <Compile Include="DataTypes\SqlHandler.cs" />
+    <Compile Include="DataTypes\TagMeasurement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
