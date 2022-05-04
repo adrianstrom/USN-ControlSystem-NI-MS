@@ -157,24 +157,34 @@ namespace USN_DataLogging
             return preconfiguredAlarms;
         }
 
+        public bool HiAlarm(ConfiguredAlarm preConfiguredAlarm, double measuredValue) =>
+            preConfiguredAlarm.AlarmType == AlarmType.Hi
+                    || preConfiguredAlarm.AlarmType == AlarmType.HiHi
+                    || preConfiguredAlarm.AlarmType == AlarmType.HiHiHi
+                    && preConfiguredAlarm.Limit >= measuredValue
+                    && OutsideDeadBand(preConfiguredAlarm.DeadBandInPercentage, measuredValue);
+
+        public bool LoAlarm(ConfiguredAlarm preConfiguredAlarm, double measuredValue) =>
+            preConfiguredAlarm.AlarmType == AlarmType.Lo
+                    || preConfiguredAlarm.AlarmType == AlarmType.LoLo
+                    || preConfiguredAlarm.AlarmType == AlarmType.LoLoLo
+                    && preConfiguredAlarm.Limit <= measuredValue
+                    && OutsideDeadBand(preConfiguredAlarm.DeadBandInPercentage, measuredValue);
+
+        public bool OutsideDeadBand(double deadBandInPercentage, double measuredValue) =>
+            measuredValue >= deadBandInPercentage * measuredValue
+                    && measuredValue <= deadBandInPercentage * measuredValue;
+
         public void CheckForAlarm(double measuredValue)
         {
             foreach (var preConfiguredAlarm in _preConfiguredAlarms)
             {
-                // Activate for equal and higher for Hi, HiHi, HiHiHi.
-                if (preConfiguredAlarm.AlarmType == AlarmType.Hi
-                    || preConfiguredAlarm.AlarmType == AlarmType.HiHi
-                    || preConfiguredAlarm.AlarmType == AlarmType.HiHiHi
-                    && preConfiguredAlarm.Limit >= measuredValue)
+                if (HiAlarm(preConfiguredAlarm, measuredValue))
                 {
                     //_sqlHandler.InsertAlarm();
                     _triggeredAlarms.Add(preConfiguredAlarm.Id, preConfiguredAlarm);
                 }
-                // Activate for equal and lower for Lo, LoLo, LoLoLo
-                else if (preConfiguredAlarm.AlarmType == AlarmType.Lo
-                    || preConfiguredAlarm.AlarmType == AlarmType.LoLo
-                    || preConfiguredAlarm.AlarmType == AlarmType.LoLoLo
-                    && preConfiguredAlarm.Limit <= measuredValue)
+                else if (LoAlarm(preConfiguredAlarm, measuredValue))
                 {
                     //_sqlHandler.InsertAlarm();
                     _triggeredAlarms.Add(preConfiguredAlarm.Id, preConfiguredAlarm);
