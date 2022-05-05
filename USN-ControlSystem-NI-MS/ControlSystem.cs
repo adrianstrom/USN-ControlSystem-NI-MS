@@ -17,16 +17,14 @@ namespace USN_ControlSystem_NI_MS
             InitializeComponent();
             InitializePID();
 
-            txtSetPoint.Text = _pidController.SetPoint.ToString();
+            //var temperatureDaqHandler = new DAQReader("Dev2/ai0", 1, 5);
+            //var controlDaqHandler = new DAQWriter("Dev2/ao1", 0, 5);
 
-            var temperatureDaqHandler = new DAQReader("Dev2/ai0", 1, 5);
-            var controlDaqHandler = new DAQWriter("Dev2/ao1", 0, 5);
+            //txtControl.Enabled = false;
+            //txtTemperature.Enabled = false;
 
-            txtControl.Enabled = false;
-            txtTemperature.Enabled = false;
-
-            InitializeOPC();
-            Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
+            //InitializeOPC();
+            //Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
         }
 
         private void InitializeOPC()
@@ -54,6 +52,7 @@ namespace USN_ControlSystem_NI_MS
 
                     wfgTemperature.PlotYAppend(temperature);
 
+
                     // Update process variable in PID control.
                     pidControl.ProcessVariable = temperature;
 
@@ -79,12 +78,6 @@ namespace USN_ControlSystem_NI_MS
                 AppendStatusTextBox("OPC error.");
                 MessageBox.Show($"OPC operation failed. {e.Message}");
             }
-        }
-
-        private void btnSetSetpoint_Click(object sender, EventArgs e)
-        {
-            double.TryParse(txtSetPoint.Text, out var setPoint);
-            _pidController.SetPoint = setPoint;
         }
 
         public void InitializePID()
@@ -132,6 +125,15 @@ namespace USN_ControlSystem_NI_MS
                 return;
             }
             lblStatus.Text = value;
+        }
+
+        private void sliderSetpoint_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_pidController == null)
+            {
+                return;
+            }
+            _pidController.SetPoint = e.NewValue;
         }
     }
 }
