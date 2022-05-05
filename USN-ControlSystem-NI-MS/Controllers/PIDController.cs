@@ -43,6 +43,16 @@ namespace USN_ControlSystem_NI_MS.Controllers
             }
             return value;
         }
+        /// <summary>
+        /// It is important that the control signal does not jump (too much) when the controller is
+        //  switched from automatic to manual mode, or from manual to automatic mode. In other
+        //  words, the transfer between the automatic and manual modes should be bumpless.
+        //  Bumpless transfer is implemented in commercial controllers. [Finn H. Haugen, Automatic Control]
+        /// </summary>
+        public void BumplessTransfer()
+        {
+
+        }
 
         public double GetControlSignal()
         {
@@ -51,7 +61,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
                 return ControlSignal;
             }
             var u_p = Kp * Error;
-            var u_i = AntiWindUp(_lastState + (Kp / Ti) * TimeStep * Error);
+            var u_i = _lastState + AntiWindUp((Kp / Ti) * TimeStep * Error));
             var u_d = 0;
 
             var u_tot = u_p + u_i;

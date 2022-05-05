@@ -41,7 +41,6 @@ namespace USN_ControlSystem_NI_MS
             this.lblError = new System.Windows.Forms.Label();
             this.lblControl = new System.Windows.Forms.Label();
             this.tcView = new System.Windows.Forms.TabControl();
-            this.Values = new System.Windows.Forms.TabPage();
             this.ControllerParameters = new System.Windows.Forms.TabPage();
             this.neOutputMax = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.neOutputMin = new NationalInstruments.UI.WindowsForms.NumericEdit();
@@ -69,6 +68,8 @@ namespace USN_ControlSystem_NI_MS
             this.sliderSetpoint = new NationalInstruments.UI.WindowsForms.Slide();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.sliderControlSignal = new NationalInstruments.UI.WindowsForms.Slide();
+            this.lblControlSignal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.wfgTemperature)).BeginInit();
             this.tcView.SuspendLayout();
             this.ControllerParameters.SuspendLayout();
@@ -83,6 +84,7 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderSetpoint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sliderControlSignal)).BeginInit();
             this.SuspendLayout();
             // 
             // wfgTemperature
@@ -115,21 +117,21 @@ namespace USN_ControlSystem_NI_MS
             // 
             // txtTemperature
             // 
-            this.txtTemperature.Location = new System.Drawing.Point(589, 20);
+            this.txtTemperature.Location = new System.Drawing.Point(769, 20);
             this.txtTemperature.Name = "txtTemperature";
             this.txtTemperature.Size = new System.Drawing.Size(100, 20);
             this.txtTemperature.TabIndex = 2;
             // 
             // txtError
             // 
-            this.txtError.Location = new System.Drawing.Point(802, 20);
+            this.txtError.Location = new System.Drawing.Point(982, 20);
             this.txtError.Name = "txtError";
             this.txtError.Size = new System.Drawing.Size(100, 20);
             this.txtError.TabIndex = 3;
             // 
             // txtControl
             // 
-            this.txtControl.Location = new System.Drawing.Point(587, 390);
+            this.txtControl.Location = new System.Drawing.Point(981, 392);
             this.txtControl.Name = "txtControl";
             this.txtControl.Size = new System.Drawing.Size(100, 20);
             this.txtControl.TabIndex = 4;
@@ -146,7 +148,7 @@ namespace USN_ControlSystem_NI_MS
             // lblTemperature
             // 
             this.lblTemperature.AutoSize = true;
-            this.lblTemperature.Location = new System.Drawing.Point(498, 23);
+            this.lblTemperature.Location = new System.Drawing.Point(678, 23);
             this.lblTemperature.Name = "lblTemperature";
             this.lblTemperature.Size = new System.Drawing.Size(87, 13);
             this.lblTemperature.TabIndex = 6;
@@ -155,7 +157,7 @@ namespace USN_ControlSystem_NI_MS
             // lblError
             // 
             this.lblError.AutoSize = true;
-            this.lblError.Location = new System.Drawing.Point(714, 23);
+            this.lblError.Location = new System.Drawing.Point(894, 23);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(85, 13);
             this.lblError.TabIndex = 7;
@@ -164,7 +166,7 @@ namespace USN_ControlSystem_NI_MS
             // lblControl
             // 
             this.lblControl.AutoSize = true;
-            this.lblControl.Location = new System.Drawing.Point(499, 393);
+            this.lblControl.Location = new System.Drawing.Point(893, 395);
             this.lblControl.Name = "lblControl";
             this.lblControl.Size = new System.Drawing.Size(86, 13);
             this.lblControl.TabIndex = 8;
@@ -172,7 +174,6 @@ namespace USN_ControlSystem_NI_MS
             // 
             // tcView
             // 
-            this.tcView.Controls.Add(this.Values);
             this.tcView.Controls.Add(this.ControllerParameters);
             this.tcView.Controls.Add(this.tabPage3);
             this.tcView.Location = new System.Drawing.Point(21, 23);
@@ -180,16 +181,6 @@ namespace USN_ControlSystem_NI_MS
             this.tcView.SelectedIndex = 0;
             this.tcView.Size = new System.Drawing.Size(375, 331);
             this.tcView.TabIndex = 9;
-            // 
-            // Values
-            // 
-            this.Values.Location = new System.Drawing.Point(4, 22);
-            this.Values.Name = "Values";
-            this.Values.Padding = new System.Windows.Forms.Padding(3);
-            this.Values.Size = new System.Drawing.Size(367, 305);
-            this.Values.TabIndex = 0;
-            this.Values.Text = "Values";
-            this.Values.UseVisualStyleBackColor = true;
             // 
             // ControllerParameters
             // 
@@ -371,6 +362,8 @@ namespace USN_ControlSystem_NI_MS
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.lblControlSignal);
+            this.tabPage1.Controls.Add(this.sliderControlSignal);
             this.tabPage1.Controls.Add(this.txtError);
             this.tabPage1.Controls.Add(this.waveformGraph1);
             this.tabPage1.Controls.Add(this.lblError);
@@ -448,6 +441,24 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage3.Text = "Filter";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // sliderControlSignal
+            // 
+            this.sliderControlSignal.FillColor = System.Drawing.SystemColors.Highlight;
+            this.sliderControlSignal.Location = new System.Drawing.Point(427, 422);
+            this.sliderControlSignal.Name = "sliderControlSignal";
+            this.sliderControlSignal.Range = new NationalInstruments.UI.Range(0D, 5D);
+            this.sliderControlSignal.Size = new System.Drawing.Size(54, 309);
+            this.sliderControlSignal.TabIndex = 13;
+            // 
+            // lblControlSignal
+            // 
+            this.lblControlSignal.AutoSize = true;
+            this.lblControlSignal.Location = new System.Drawing.Point(424, 406);
+            this.lblControlSignal.Name = "lblControlSignal";
+            this.lblControlSignal.Size = new System.Drawing.Size(88, 13);
+            this.lblControlSignal.TabIndex = 14;
+            this.lblControlSignal.Text = "Control Signal [V]";
+            // 
             // ControlSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -472,6 +483,7 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.waveformGraph1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderSetpoint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sliderControlSignal)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -490,7 +502,6 @@ namespace USN_ControlSystem_NI_MS
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.Label lblControl;
         private System.Windows.Forms.TabControl tcView;
-        private System.Windows.Forms.TabPage Values;
         private System.Windows.Forms.TabPage ControllerParameters;
         private System.Windows.Forms.Label lblTd;
         private System.Windows.Forms.Label lblTi;
@@ -518,6 +529,8 @@ namespace USN_ControlSystem_NI_MS
         private NationalInstruments.UI.WindowsForms.NumericEdit neOutputMax;
         private NationalInstruments.UI.WindowsForms.NumericEdit neOutputMin;
         private System.Windows.Forms.TabPage tabPage3;
+        private NationalInstruments.UI.WindowsForms.Slide sliderControlSignal;
+        private System.Windows.Forms.Label lblControlSignal;
     }
 }
 
