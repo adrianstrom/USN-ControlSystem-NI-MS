@@ -16,7 +16,8 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         public TimeSpan TimeStep { get; private set; }
 
-        public double Y_previous { get; set; }
+        private double Y_previous { get; set; }
+
         public double Y_min { get; set; } = 0;
         public double Y_max { get; set; } = 99999999999999;
 
@@ -26,6 +27,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
             {
                 Y_previous = InitialValue;
                 _initial = false;
+                return InitialValue;
             }
             var integratedValue = Clamp(Y_previous + TimeStep.TotalSeconds * valueFromModel);
             return integratedValue;

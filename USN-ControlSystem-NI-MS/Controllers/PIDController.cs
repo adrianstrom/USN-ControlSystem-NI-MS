@@ -29,6 +29,8 @@ namespace USN_ControlSystem_NI_MS.Controllers
             }
         }
 
+        public bool AntiWindup { get; set; }
+
         public double SetPoint { get; set; }
         public double ProcessVariable { get; set; }
 

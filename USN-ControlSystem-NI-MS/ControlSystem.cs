@@ -17,12 +17,20 @@ namespace USN_ControlSystem_NI_MS
             InitializeComponent();
             InitializePID();
             InitializeAirHeaterModel();
+            InitializeControls();
 
             //var temperatureDaqHandler = new DAQReader("Dev2/ai0", 1, 5);
             //var controlDaqHandler = new DAQWriter("Dev2/ao1", 0, 5);
             var temperatureDaqHandler = new TemperatureReader();
             var controlDaqHandler = new ControlSignalWriter();
 
+
+            InitializeOPC();
+            Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
+        }
+
+        private void InitializeControls()
+        {
             txtControl.Enabled = false;
             txtTemperature.Enabled = false;
 
@@ -32,17 +40,14 @@ namespace USN_ControlSystem_NI_MS
             neOutputMin.Value = _pidController.OutputMinimum;
             neOutputMax.Value = _pidController.OutputMaximum;
 
-            InitializeOPC();
-            Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
-            Task.Run(() => CalculateRateOfChange());
-        }
+            switchMode.Value = _pidController.Manual;
+            switchAntiWindup.Value = _pidController.AntiWindup;
 
-        private async Task CalculateRateOfChange()
-        {
-            while (true)
-            {
-                await Task.Delay(1000);
-            }
+            neControlSignal.Value = _airHeaterModel.ControlSignal;
+            sliderControlSignal.Value = _airHeaterModel.ControlSignal;
+
+            neTemperautureEnvironment.Value = _airHeaterModel.TemperatureEnvironment;
+            neKh.Value = _airHeaterModel.HeaterGain;
         }
 
         private void InitializeOPC()
@@ -56,8 +61,7 @@ namespace USN_ControlSystem_NI_MS
 
         private void InitializeAirHeaterModel()
         {
-            _airHeaterModel = new AirHeaterModel();
-            _airHeaterModel.InitialTemperature = 25;
+            _airHeaterModel = new AirHeaterModel(25);
             _airHeaterModel.TimeStep = TimeSpan.FromSeconds(_pidController.TimeStep);
         }
 
@@ -216,6 +220,30 @@ namespace USN_ControlSystem_NI_MS
             {
                 _airHeaterModel.ControlSignal = e.NewValue;
                 neControlSignal.Value = e.NewValue;
+            }
+        }
+
+        private void neTemperautureEnvironment_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_airHeaterModel != null)
+            {
+                _airHeaterModel.TemperatureEnvironment = e.NewValue;
+            }
+        }
+
+        private void neKh_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_airHeaterModel != null)
+            {
+                _airHeaterModel.HeaterGain = e.NewValue;
+            }
+        }
+
+        private void neTimeDelay_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_airHeaterModel != null)
+            {
+                _airHeaterModel.TimeDelay = TimeSpan.FromSeconds(e.NewValue);
             }
         }
     }

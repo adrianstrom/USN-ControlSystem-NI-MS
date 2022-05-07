@@ -58,7 +58,7 @@ namespace USN_ControlSystem_NI_MS
             this.ControllerParameters = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.switch1 = new NationalInstruments.UI.WindowsForms.Switch();
+            this.switchAntiWindup = new NationalInstruments.UI.WindowsForms.Switch();
             this.neOutputMax = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.neOutputMin = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.lblOutputMax = new System.Windows.Forms.Label();
@@ -74,13 +74,13 @@ namespace USN_ControlSystem_NI_MS
             this.lblKp = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTimeDelay = new System.Windows.Forms.Label();
+            this.lblKh = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.numericEdit4 = new NationalInstruments.UI.WindowsForms.NumericEdit();
-            this.numericEdit3 = new NationalInstruments.UI.WindowsForms.NumericEdit();
-            this.numericEdit2 = new NationalInstruments.UI.WindowsForms.NumericEdit();
-            this.numericEdit1 = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.neKh = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.neTimeDelay = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.neTemperautureEnvironment = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
@@ -92,7 +92,7 @@ namespace USN_ControlSystem_NI_MS
             ((System.ComponentModel.ISupportInitialize)(this.wfgTemperature)).BeginInit();
             this.tcView.SuspendLayout();
             this.ControllerParameters.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.switch1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.switchAntiWindup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neOutputMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neOutputMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.switchMode)).BeginInit();
@@ -101,9 +101,9 @@ namespace USN_ControlSystem_NI_MS
             ((System.ComponentModel.ISupportInitialize)(this.neGain)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericEdit4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neKh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTimeDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTemperautureEnvironment)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -348,7 +348,7 @@ namespace USN_ControlSystem_NI_MS
             this.ControllerParameters.BackColor = System.Drawing.Color.LightGray;
             this.ControllerParameters.Controls.Add(this.label6);
             this.ControllerParameters.Controls.Add(this.label5);
-            this.ControllerParameters.Controls.Add(this.switch1);
+            this.ControllerParameters.Controls.Add(this.switchAntiWindup);
             this.ControllerParameters.Controls.Add(this.neOutputMax);
             this.ControllerParameters.Controls.Add(this.neOutputMin);
             this.ControllerParameters.Controls.Add(this.lblOutputMax);
@@ -387,13 +387,13 @@ namespace USN_ControlSystem_NI_MS
             this.label5.TabIndex = 17;
             this.label5.Text = "Anti windup";
             // 
-            // switch1
+            // switchAntiWindup
             // 
-            this.switch1.Location = new System.Drawing.Point(140, 194);
-            this.switch1.Name = "switch1";
-            this.switch1.Size = new System.Drawing.Size(64, 96);
-            this.switch1.SwitchStyle = NationalInstruments.UI.SwitchStyle.VerticalToggle3D;
-            this.switch1.TabIndex = 16;
+            this.switchAntiWindup.Location = new System.Drawing.Point(140, 194);
+            this.switchAntiWindup.Name = "switchAntiWindup";
+            this.switchAntiWindup.Size = new System.Drawing.Size(64, 96);
+            this.switchAntiWindup.SwitchStyle = NationalInstruments.UI.SwitchStyle.VerticalToggle3D;
+            this.switchAntiWindup.TabIndex = 16;
             // 
             // neOutputMax
             // 
@@ -509,13 +509,13 @@ namespace USN_ControlSystem_NI_MS
             // 
             this.tabPage4.BackColor = System.Drawing.Color.LightGray;
             this.tabPage4.Controls.Add(this.label4);
-            this.tabPage4.Controls.Add(this.label3);
-            this.tabPage4.Controls.Add(this.label2);
+            this.tabPage4.Controls.Add(this.lblTimeDelay);
+            this.tabPage4.Controls.Add(this.lblKh);
             this.tabPage4.Controls.Add(this.label1);
             this.tabPage4.Controls.Add(this.numericEdit4);
-            this.tabPage4.Controls.Add(this.numericEdit3);
-            this.tabPage4.Controls.Add(this.numericEdit2);
-            this.tabPage4.Controls.Add(this.numericEdit1);
+            this.tabPage4.Controls.Add(this.neKh);
+            this.tabPage4.Controls.Add(this.neTimeDelay);
+            this.tabPage4.Controls.Add(this.neTemperautureEnvironment);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -532,32 +532,32 @@ namespace USN_ControlSystem_NI_MS
             this.label4.TabIndex = 7;
             this.label4.Text = "label4";
             // 
-            // label3
+            // lblTimeDelay
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 90);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "label3";
+            this.lblTimeDelay.AutoSize = true;
+            this.lblTimeDelay.Location = new System.Drawing.Point(18, 90);
+            this.lblTimeDelay.Name = "lblTimeDelay";
+            this.lblTimeDelay.Size = new System.Drawing.Size(74, 13);
+            this.lblTimeDelay.TabIndex = 6;
+            this.lblTimeDelay.Text = "Time Delay [s]";
             // 
-            // label2
+            // lblKh
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 60);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Kh [C/V]";
+            this.lblKh.AutoSize = true;
+            this.lblKh.Location = new System.Drawing.Point(18, 60);
+            this.lblKh.Name = "lblKh";
+            this.lblKh.Size = new System.Drawing.Size(48, 13);
+            this.lblKh.TabIndex = 5;
+            this.lblKh.Text = "Kh [C/V]";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(18, 30);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.Size = new System.Drawing.Size(81, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Temp. env. []";
+            this.label1.Text = "Temp. env. [°C]";
             // 
             // numericEdit4
             // 
@@ -566,26 +566,29 @@ namespace USN_ControlSystem_NI_MS
             this.numericEdit4.Size = new System.Drawing.Size(120, 20);
             this.numericEdit4.TabIndex = 3;
             // 
-            // numericEdit3
+            // neKh
             // 
-            this.numericEdit3.Location = new System.Drawing.Point(140, 60);
-            this.numericEdit3.Name = "numericEdit3";
-            this.numericEdit3.Size = new System.Drawing.Size(120, 20);
-            this.numericEdit3.TabIndex = 2;
+            this.neKh.Location = new System.Drawing.Point(140, 60);
+            this.neKh.Name = "neKh";
+            this.neKh.Size = new System.Drawing.Size(120, 20);
+            this.neKh.TabIndex = 2;
+            this.neKh.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.neKh_AfterChangeValue);
             // 
-            // numericEdit2
+            // neTimeDelay
             // 
-            this.numericEdit2.Location = new System.Drawing.Point(140, 90);
-            this.numericEdit2.Name = "numericEdit2";
-            this.numericEdit2.Size = new System.Drawing.Size(120, 20);
-            this.numericEdit2.TabIndex = 1;
+            this.neTimeDelay.Location = new System.Drawing.Point(140, 90);
+            this.neTimeDelay.Name = "neTimeDelay";
+            this.neTimeDelay.Size = new System.Drawing.Size(120, 20);
+            this.neTimeDelay.TabIndex = 1;
+            this.neTimeDelay.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.neTimeDelay_AfterChangeValue);
             // 
-            // numericEdit1
+            // neTemperautureEnvironment
             // 
-            this.numericEdit1.Location = new System.Drawing.Point(140, 30);
-            this.numericEdit1.Name = "numericEdit1";
-            this.numericEdit1.Size = new System.Drawing.Size(120, 20);
-            this.numericEdit1.TabIndex = 0;
+            this.neTemperautureEnvironment.Location = new System.Drawing.Point(140, 30);
+            this.neTemperautureEnvironment.Name = "neTemperautureEnvironment";
+            this.neTemperautureEnvironment.Size = new System.Drawing.Size(120, 20);
+            this.neTemperautureEnvironment.TabIndex = 0;
+            this.neTemperautureEnvironment.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.neTemperautureEnvironment_AfterChangeValue);
             // 
             // tabPage3
             // 
@@ -625,7 +628,7 @@ namespace USN_ControlSystem_NI_MS
             this.tcView.ResumeLayout(false);
             this.ControllerParameters.ResumeLayout(false);
             this.ControllerParameters.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.switch1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.switchAntiWindup)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neOutputMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neOutputMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.switchMode)).EndInit();
@@ -635,9 +638,9 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericEdit4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neKh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTimeDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTemperautureEnvironment)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -682,17 +685,17 @@ namespace USN_ControlSystem_NI_MS
         private System.Windows.Forms.Label lblKp;
         private System.Windows.Forms.TabPage tabPage4;
         private NationalInstruments.UI.WindowsForms.NumericEdit numericEdit4;
-        private NationalInstruments.UI.WindowsForms.NumericEdit numericEdit3;
-        private NationalInstruments.UI.WindowsForms.NumericEdit numericEdit2;
-        private NationalInstruments.UI.WindowsForms.NumericEdit numericEdit1;
+        private NationalInstruments.UI.WindowsForms.NumericEdit neKh;
+        private NationalInstruments.UI.WindowsForms.NumericEdit neTimeDelay;
+        private NationalInstruments.UI.WindowsForms.NumericEdit neTemperautureEnvironment;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTimeDelay;
+        private System.Windows.Forms.Label lblKh;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private NationalInstruments.UI.WindowsForms.Switch switch1;
+        private NationalInstruments.UI.WindowsForms.Switch switchAntiWindup;
         private NationalInstruments.UI.WaveformPlot pltSetPoint;
         private NationalInstruments.UI.WaveformPlot pltTemperatureOutlet;
         private NationalInstruments.UI.WindowsForms.NumericEdit neControlSignal;

@@ -7,9 +7,9 @@ namespace USN_ControlSystem_NI_MS.Controllers
     {
         public ForwardEuler _euler;
 
-        public AirHeaterModel()
+        public AirHeaterModel(double initialTemperature)
         {
-            _euler = new ForwardEuler(InitialTemperature, TimeStep);
+            _euler = new ForwardEuler(initialTemperature, TimeStep);
             Delay_Array = new double[Nd];
             Delay_Array = Enumerable.Repeat<double>(3, Delay_Array.Length).ToArray();
         }
@@ -35,7 +35,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
             Delay_Array = ShiftRight(Delay_Array);
         }
 
-        public double InitialTemperature { get; set; } = 20;
+        public double InitialTemperatureOutlet { get; set; } = 20;
 
         /// <summary>
         /// Outlet temperature.
@@ -61,14 +61,27 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         public double HeaterGain { get; set; } = 3.5;
 
+        private bool Initial { get; set; }
+
+        private double _lastState;
+
         public TimeSpan TimeDelay { get; set; } = new TimeSpan(0, 0, 0, 3);
 
         public double CalculateOutput()
         {
             ControlSignalDelay();
-            var dT_dt = ((TemperatureEnvironment - TemperatureTubeOutlet) + HeaterGain * TimeDelayedControlSignal) / (TimeConstant);
-            var output = _euler.Integrator(dT_dt);
-            return output;
+            if (Initial)
+            {
+                Initial = false;
+                return InitialTemperatureOutlet;
+            }
+            else
+            {
+                _lastState = TemperatureTubeOutlet;
+                var dT_dt = ((TemperatureEnvironment - _lastState) + HeaterGain * TimeDelayedControlSignal) / (TimeConstant);
+                var output = _euler.Integrator(dT_dt);
+                return output;
+            }
         }
     }
 }
