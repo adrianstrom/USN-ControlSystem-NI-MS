@@ -1,8 +1,23 @@
 ﻿using NationalInstruments.DAQmx;
 
 namespace USN_ControlSystem_NI_MS.Controllers
-
 {
+    public interface IDataReader
+    {
+        double ReadFromDAQ();
+    }
+    public interface IDataWriter
+    {
+        void WriteToDAQ(double valueToWrite);
+    }
+    public class TemperatureReader : IDataReader
+    {
+        public double ReadFromDAQ() => 5;
+    }
+    public class ControlSignalWriter : IDataWriter
+    {
+        public void WriteToDAQ(double valueToWrite) { }
+    }
     public static class VoltageConverter
     {
         public static double Temperature1Converter(double voltage) => (25 + 15 * voltage) / 2;
@@ -18,7 +33,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
         }
     }
 
-    public class DAQReader : DAQBase
+    public class DAQReader : DAQBase, IDataReader
     {
         private AnalogSingleChannelReader _reader;
         public DAQReader(string channelName, double voltageMinValue, double voltageMaxValue) : base()
@@ -35,7 +50,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         public double ReadFromDAQ() => _reader.ReadSingleSample();
 
-        public class DAQWriter : DAQBase
+        public class DAQWriter : DAQBase, IDataWriter
         {
             private AnalogSingleChannelWriter _writer;
             public DAQWriter(string channelName, double voltageMinValue, double voltageMaxValue) : base()
