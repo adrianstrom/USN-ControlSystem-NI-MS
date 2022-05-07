@@ -12,27 +12,23 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         private bool _initial = true;
 
-        public int NumberOfTimesIntegrated { get; set; }
-
         public double InitialValue { get; private set; }
 
         public TimeSpan TimeStep { get; private set; }
-
-        public double IntegratedValue { get; set; }
 
         public double Y_previous { get; set; }
         public double Y_min { get; set; } = 0;
         public double Y_max { get; set; } = 99999999999999;
 
-        public void Integrate(double valueFromModel)
+        public double Integrator(double valueFromModel)
         {
             if (_initial)
             {
                 Y_previous = InitialValue;
                 _initial = false;
             }
-            IntegratedValue = Clamp(Y_previous + TimeStep.TotalSeconds * valueFromModel);
-            NumberOfTimesIntegrated++;
+            var integratedValue = Clamp(Y_previous + TimeStep.TotalSeconds * valueFromModel);
+            return integratedValue;
         }
 
         private double Clamp(double value)

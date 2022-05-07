@@ -41,7 +41,6 @@ namespace USN_ControlSystem_NI_MS
         {
             while (true)
             {
-                var test = _airHeaterModel.CalculateTemperatureRateOfChange();
                 await Task.Delay(1000);
             }
         }
@@ -78,8 +77,7 @@ namespace USN_ControlSystem_NI_MS
 
                     pltTemperature.PlotYAppend(temperature);
                     pltSetPoint.PlotYAppend(sliderSetpoint.Value);
-                    _airHeaterModel._euler.Integrate(20);
-                    pltTemperatureOutlet.PlotYAppend(_airHeaterModel.TemperatureTubeOutlet);
+                    pltTemperatureOutlet.PlotYAppend(_airHeaterModel.CalculateOutput());
 
                     // Update process variable in PID control.
                     pidControl.ProcessVariable = temperature;
@@ -167,13 +165,15 @@ namespace USN_ControlSystem_NI_MS
 
         private void switchMode_StateChanged(object sender, NationalInstruments.UI.ActionEventArgs e)
         {
-            if (switchMode.Value == true) // Indicataes Automatic Mode on
+            if (switchMode.Value == true)
             {
                 sliderControlSignal.Enabled = false;
+                neControlSignal.Enabled = false;
             }
             else
             {
                 sliderControlSignal.Enabled = true;
+                neControlSignal.Enabled = true;
             }
         }
 
@@ -198,6 +198,24 @@ namespace USN_ControlSystem_NI_MS
             if (_pidController != null)
             {
                 _pidController.Td = e.NewValue;
+            }
+        }
+
+        private void neControlSignal_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_airHeaterModel != null)
+            {
+                _airHeaterModel.ControlSignal = e.NewValue;
+                sliderControlSignal.Value = e.NewValue;
+            }
+        }
+
+        private void sliderControlSignal_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_airHeaterModel != null)
+            {
+                _airHeaterModel.ControlSignal = e.NewValue;
+                neControlSignal.Value = e.NewValue;
             }
         }
     }

@@ -10,26 +10,37 @@ namespace USN_ControlSystem_NI_MS.Controllers
         public AirHeaterModel()
         {
             _euler = new ForwardEuler(InitialTemperature, TimeStep);
+            Delay_Array = new double[Nd];
+            Delay_Array = Enumerable.Repeat<double>(3, Delay_Array.Length).ToArray();
         }
 
-        public double[] array => new double[(int)Math.Round(TimeDelay.TotalSeconds / TimeStep.TotalSeconds)];
+        public int Nd => (int)Math.Round(TimeDelay.TotalSeconds / TimeStep.TotalSeconds) + 1;
 
-        public void Output()
+        public double[] Delay_Array { get; set; }
+
+        public double[] ShiftRight(double[] arr)
         {
-            //TemperatureTubeOutlet = _euler.IntegratedValue;
+            double[] array = new double[arr.Length];
+            for (int i = 1; i < arr.Length; i++)
+            {
+                array[i] = arr[i - 1];
+            }
+            array[0] = ControlSignal;
+            return array;
         }
 
-        public double CalculateU_Delay()
+        public void ControlSignalDelay()
         {
-            return array.Last();
+            TimeDelayedControlSignal = Delay_Array.Last();
+            Delay_Array = ShiftRight(Delay_Array);
         }
 
         public double InitialTemperature { get; set; } = 20;
 
         /// <summary>
-        /// Outlet temperature
+        /// Outlet temperature.
         /// </summary>
-        public double TemperatureTubeOutlet => _euler.IntegratedValue;
+        public double TemperatureTubeOutlet { get; set; } = 20;
 
         /// <summary>
         ///  Environmental (room) temperature.
@@ -37,23 +48,27 @@ namespace USN_ControlSystem_NI_MS.Controllers
         public double TemperatureEnvironment { get; set; } = 20;
 
         /// <summary>
-        /// Control signal to the heater.
+        /// Time Delayed Control signal to the heater. Shouldn't be exposed.
         /// </summary>
-        public double ControlSignal { get; set; }
+        private double TimeDelayedControlSignal { get; set; }
+
+        /// <summary>
+        /// Real time Control signal to the heater.
+        /// </summary>
+        public double ControlSignal { get; set; } = 2;
 
         public int TimeConstant { get; set; } = 22;
 
         public double HeaterGain { get; set; } = 3.5;
 
-        public TimeSpan TimeDelay { get; set; } = new TimeSpan(0, 0, 0, 10);
+        public TimeSpan TimeDelay { get; set; } = new TimeSpan(0, 0, 0, 3);
 
-        public bool Initial { get; set; }
-
-        public double CalculateTemperatureRateOfChange()
+        public double CalculateOutput()
         {
-            var u_delay = CalculateU_Delay();
-            var dT_dt = ((TemperatureEnvironment - TemperatureTubeOutlet) + HeaterGain * u_delay) / (TimeConstant);
-            return dT_dt;
+            ControlSignalDelay();
+            var dT_dt = ((TemperatureEnvironment - TemperatureTubeOutlet) + HeaterGain * TimeDelayedControlSignal) / (TimeConstant);
+            var output = _euler.Integrator(dT_dt);
+            return output;
         }
     }
 }

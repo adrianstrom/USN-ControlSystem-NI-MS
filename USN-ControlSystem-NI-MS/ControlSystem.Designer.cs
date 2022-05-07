@@ -31,6 +31,8 @@ namespace USN_ControlSystem_NI_MS
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblControlSignalRampChange = new System.Windows.Forms.Label();
+            this.neControlSignal = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.lblControlSignal = new System.Windows.Forms.Label();
             this.sliderControlSignal = new NationalInstruments.UI.WindowsForms.Slide();
             this.txtError = new System.Windows.Forms.TextBox();
@@ -47,6 +49,8 @@ namespace USN_ControlSystem_NI_MS
             this.pltTemperature = new NationalInstruments.UI.WaveformPlot();
             this.xAxisTime = new NationalInstruments.UI.XAxis();
             this.yAxisTemperature = new NationalInstruments.UI.YAxis();
+            this.pltSetPoint = new NationalInstruments.UI.WaveformPlot();
+            this.pltTemperatureOutlet = new NationalInstruments.UI.WaveformPlot();
             this.lblSetPoint = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.lblTemperature = new System.Windows.Forms.Label();
@@ -79,10 +83,9 @@ namespace USN_ControlSystem_NI_MS
             this.numericEdit1 = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.pltSetPoint = new NationalInstruments.UI.WaveformPlot();
-            this.pltTemperatureOutlet = new NationalInstruments.UI.WaveformPlot();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.neControlSignal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderControlSignal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.wfgControlSignal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderSetpoint)).BeginInit();
@@ -110,11 +113,13 @@ namespace USN_ControlSystem_NI_MS
             this.tabControl1.Location = new System.Drawing.Point(1, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1202, 779);
+            this.tabControl1.Size = new System.Drawing.Size(1202, 800);
             this.tabControl1.TabIndex = 11;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.lblControlSignalRampChange);
+            this.tabPage1.Controls.Add(this.neControlSignal);
             this.tabPage1.Controls.Add(this.lblControlSignal);
             this.tabPage1.Controls.Add(this.sliderControlSignal);
             this.tabPage1.Controls.Add(this.txtError);
@@ -132,10 +137,27 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1194, 753);
+            this.tabPage1.Size = new System.Drawing.Size(1194, 774);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "PI regulator";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // lblControlSignalRampChange
+            // 
+            this.lblControlSignalRampChange.AutoSize = true;
+            this.lblControlSignalRampChange.Location = new System.Drawing.Point(498, 744);
+            this.lblControlSignalRampChange.Name = "lblControlSignalRampChange";
+            this.lblControlSignalRampChange.Size = new System.Drawing.Size(91, 13);
+            this.lblControlSignalRampChange.TabIndex = 16;
+            this.lblControlSignalRampChange.Text = "Ramp Change [V]";
+            // 
+            // neControlSignal
+            // 
+            this.neControlSignal.Location = new System.Drawing.Point(595, 744);
+            this.neControlSignal.Name = "neControlSignal";
+            this.neControlSignal.Size = new System.Drawing.Size(120, 20);
+            this.neControlSignal.TabIndex = 15;
+            this.neControlSignal.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.neControlSignal_AfterChangeValue);
             // 
             // lblControlSignal
             // 
@@ -154,6 +176,7 @@ namespace USN_ControlSystem_NI_MS
             this.sliderControlSignal.Range = new NationalInstruments.UI.Range(0D, 5D);
             this.sliderControlSignal.Size = new System.Drawing.Size(54, 309);
             this.sliderControlSignal.TabIndex = 13;
+            this.sliderControlSignal.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.sliderControlSignal_AfterChangeValue);
             // 
             // txtError
             // 
@@ -266,6 +289,20 @@ namespace USN_ControlSystem_NI_MS
             this.yAxisTemperature.Caption = "Temperature [°C]";
             this.yAxisTemperature.Mode = NationalInstruments.UI.AxisMode.Fixed;
             this.yAxisTemperature.Range = new NationalInstruments.UI.Range(0D, 60D);
+            // 
+            // pltSetPoint
+            // 
+            this.pltSetPoint.LineColor = System.Drawing.Color.LimeGreen;
+            this.pltSetPoint.LineColorPrecedence = NationalInstruments.UI.ColorPrecedence.UserDefinedColor;
+            this.pltSetPoint.XAxis = this.xAxisTime;
+            this.pltSetPoint.YAxis = this.yAxisTemperature;
+            // 
+            // pltTemperatureOutlet
+            // 
+            this.pltTemperatureOutlet.LineColor = System.Drawing.Color.MediumVioletRed;
+            this.pltTemperatureOutlet.LineColorPrecedence = NationalInstruments.UI.ColorPrecedence.UserDefinedColor;
+            this.pltTemperatureOutlet.XAxis = this.xAxisTime;
+            this.pltTemperatureOutlet.YAxis = this.yAxisTemperature;
             // 
             // lblSetPoint
             // 
@@ -564,36 +601,23 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1194, 753);
+            this.tabPage2.Size = new System.Drawing.Size(1194, 774);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Digital twin";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // pltSetPoint
-            // 
-            this.pltSetPoint.LineColor = System.Drawing.Color.LimeGreen;
-            this.pltSetPoint.LineColorPrecedence = NationalInstruments.UI.ColorPrecedence.UserDefinedColor;
-            this.pltSetPoint.XAxis = this.xAxisTime;
-            this.pltSetPoint.YAxis = this.yAxisTemperature;
-            // 
-            // pltTemperatureOutlet
-            // 
-            this.pltTemperatureOutlet.LineColor = System.Drawing.Color.MediumVioletRed;
-            this.pltTemperatureOutlet.LineColorPrecedence = NationalInstruments.UI.ColorPrecedence.UserDefinedColor;
-            this.pltTemperatureOutlet.XAxis = this.xAxisTime;
-            this.pltTemperatureOutlet.YAxis = this.yAxisTemperature;
             // 
             // ControlSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1269, 793);
+            this.ClientSize = new System.Drawing.Size(1269, 814);
             this.Controls.Add(this.tabControl1);
             this.Name = "ControlSystem";
             this.Text = "Control System";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.neControlSignal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderControlSignal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.wfgControlSignal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliderSetpoint)).EndInit();
@@ -671,6 +695,8 @@ namespace USN_ControlSystem_NI_MS
         private NationalInstruments.UI.WindowsForms.Switch switch1;
         private NationalInstruments.UI.WaveformPlot pltSetPoint;
         private NationalInstruments.UI.WaveformPlot pltTemperatureOutlet;
+        private NationalInstruments.UI.WindowsForms.NumericEdit neControlSignal;
+        private System.Windows.Forms.Label lblControlSignalRampChange;
     }
 }
 
