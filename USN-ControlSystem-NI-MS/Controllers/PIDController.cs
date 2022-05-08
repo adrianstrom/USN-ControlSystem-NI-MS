@@ -81,11 +81,10 @@ namespace USN_ControlSystem_NI_MS.Controllers
                 return ControlSignal;
             }
             var u_p = Kp * Error;
-            var u_i = _lastState + AntiWindUp((Kp / Ti) * TimeStep) * Error;
-            var u_d = 0;
+            var u_i = AntiWindUp((_lastState + (Kp / Ti) * TimeStep) * Error);
 
-            var u_tot = u_p + u_i + u_d;
-            _lastState = u_i;
+            var u_tot = u_p + u_i;
+            _lastState = u_p + u_i;
             return u_tot;
         }
     }

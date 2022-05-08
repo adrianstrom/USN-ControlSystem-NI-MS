@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using USN_ControlSystem_NI_MS.Controllers;
+using static USN_ControlSystem_NI_MS.Controllers.DAQReader;
 
 namespace USN_ControlSystem_NI_MS
 {
@@ -19,13 +20,12 @@ namespace USN_ControlSystem_NI_MS
             InitializeAirHeaterModel();
             InitializeControls();
 
-            //var temperatureDaqHandler = new DAQReader("Dev2/ai0", 1, 5);
-            //var controlDaqHandler = new DAQWriter("Dev2/ao1", 0, 5);
-            var temperatureDaqHandler = new TemperatureReader();
-            var controlDaqHandler = new ControlSignalWriter();
+            var temperatureDaqHandler = new DAQReader("Dev3/ai0", 1, 5);
+            var controlDaqHandler = new DAQWriter("Dev3/ao1", 0, 5);
+            //var temperatureDaqHandler = new TemperatureReader();
+            //var controlDaqHandler = new ControlSignalWriter();
 
-
-            InitializeOPC();
+            //InitializeOPC();
             Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
         }
 
@@ -45,6 +45,8 @@ namespace USN_ControlSystem_NI_MS
 
             neControlSignal.Value = _airHeaterModel.ControlSignal;
             sliderControlSignal.Value = _airHeaterModel.ControlSignal;
+            neTimeDelay.Value = _airHeaterModel.TimeDelay.TotalSeconds;
+            neTimeConstant.Value = _airHeaterModel.TimeConstant;
 
             neTemperautureEnvironment.Value = _airHeaterModel.TemperatureEnvironment;
             neKh.Value = _airHeaterModel.HeaterGain;
@@ -62,7 +64,6 @@ namespace USN_ControlSystem_NI_MS
         private void InitializeAirHeaterModel()
         {
             _airHeaterModel = new AirHeaterModel(25);
-            _airHeaterModel.TimeStep = TimeSpan.FromSeconds(_pidController.TimeStep);
         }
 
         public async Task ControlAirHeater(PIDController pidControl = null, IDataReader daqReader = null, IDataWriter daqWriter = null)
@@ -90,13 +91,13 @@ namespace USN_ControlSystem_NI_MS
                     var u = pidControl.GetControlSignal();
                     pltControlSignal.PlotYAppend(20 * u); // scale to percentage
                     AppendControlTextBox(String.Format("{0:0.00}", u));
-                    daqWriter.WriteToDAQ(u);
+                    daqWriter.WriteToDAQ(1);
 
                     // Write values to OPC UA Server.
-                    _opcClient.WriteNode("ns=2;s=MeasurementSites/USN/Temperature", temperature);
-                    _opcClient.WriteNode("ns=2;s=MeasurementSites/USN/ControlSignal", u);
+                    //_opcClient.WriteNode("ns=2;s=MeasurementSites/USN/Temperature", temperature);
+                    //_opcClient.WriteNode("ns=2;s=MeasurementSites/USN/ControlSignal", u);
 
-                    await Task.Delay(1000);
+                    await Task.Delay(10);
                 }
             }
             catch (NationalInstruments.DAQmx.DaqException e)
@@ -244,6 +245,14 @@ namespace USN_ControlSystem_NI_MS
             if (_airHeaterModel != null)
             {
                 _airHeaterModel.TimeDelay = TimeSpan.FromSeconds(e.NewValue);
+            }
+        }
+
+        private void neTimeConstant_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_airHeaterModel != null)
+            {
+                _airHeaterModel.TimeConstant = e.NewValue;
             }
         }
     }

@@ -73,11 +73,11 @@ namespace USN_ControlSystem_NI_MS
             this.lblTi = new System.Windows.Forms.Label();
             this.lblKp = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblTimeConstant = new System.Windows.Forms.Label();
             this.lblTimeDelay = new System.Windows.Forms.Label();
             this.lblKh = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.numericEdit4 = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.neTimeConstant = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.neKh = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.neTimeDelay = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.neTemperautureEnvironment = new NationalInstruments.UI.WindowsForms.NumericEdit();
@@ -100,7 +100,7 @@ namespace USN_ControlSystem_NI_MS
             ((System.ComponentModel.ISupportInitialize)(this.neTi)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neGain)).BeginInit();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTimeConstant)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neKh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTemperautureEnvironment)).BeginInit();
@@ -508,11 +508,11 @@ namespace USN_ControlSystem_NI_MS
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.LightGray;
-            this.tabPage4.Controls.Add(this.label4);
+            this.tabPage4.Controls.Add(this.lblTimeConstant);
             this.tabPage4.Controls.Add(this.lblTimeDelay);
             this.tabPage4.Controls.Add(this.lblKh);
             this.tabPage4.Controls.Add(this.label1);
-            this.tabPage4.Controls.Add(this.numericEdit4);
+            this.tabPage4.Controls.Add(this.neTimeConstant);
             this.tabPage4.Controls.Add(this.neKh);
             this.tabPage4.Controls.Add(this.neTimeDelay);
             this.tabPage4.Controls.Add(this.neTemperautureEnvironment);
@@ -523,14 +523,14 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Model Parameters";
             // 
-            // label4
+            // lblTimeConstant
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(18, 120);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "label4";
+            this.lblTimeConstant.AutoSize = true;
+            this.lblTimeConstant.Location = new System.Drawing.Point(18, 120);
+            this.lblTimeConstant.Name = "lblTimeConstant";
+            this.lblTimeConstant.Size = new System.Drawing.Size(89, 13);
+            this.lblTimeConstant.TabIndex = 7;
+            this.lblTimeConstant.Text = "Time Constant [s]";
             // 
             // lblTimeDelay
             // 
@@ -546,9 +546,9 @@ namespace USN_ControlSystem_NI_MS
             this.lblKh.AutoSize = true;
             this.lblKh.Location = new System.Drawing.Point(18, 60);
             this.lblKh.Name = "lblKh";
-            this.lblKh.Size = new System.Drawing.Size(48, 13);
+            this.lblKh.Size = new System.Drawing.Size(52, 13);
             this.lblKh.TabIndex = 5;
-            this.lblKh.Text = "Kh [C/V]";
+            this.lblKh.Text = "Kh [°C/V]";
             // 
             // label1
             // 
@@ -559,12 +559,13 @@ namespace USN_ControlSystem_NI_MS
             this.label1.TabIndex = 4;
             this.label1.Text = "Temp. env. [°C]";
             // 
-            // numericEdit4
+            // neTimeConstant
             // 
-            this.numericEdit4.Location = new System.Drawing.Point(140, 120);
-            this.numericEdit4.Name = "numericEdit4";
-            this.numericEdit4.Size = new System.Drawing.Size(120, 20);
-            this.numericEdit4.TabIndex = 3;
+            this.neTimeConstant.Location = new System.Drawing.Point(140, 120);
+            this.neTimeConstant.Name = "neTimeConstant";
+            this.neTimeConstant.Size = new System.Drawing.Size(120, 20);
+            this.neTimeConstant.TabIndex = 3;
+            this.neTimeConstant.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.neTimeConstant_AfterChangeValue);
             // 
             // neKh
             // 
@@ -637,7 +638,7 @@ namespace USN_ControlSystem_NI_MS
             ((System.ComponentModel.ISupportInitialize)(this.neGain)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neTimeConstant)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neKh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTimeDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTemperautureEnvironment)).EndInit();
@@ -684,12 +685,12 @@ namespace USN_ControlSystem_NI_MS
         private System.Windows.Forms.Label lblTi;
         private System.Windows.Forms.Label lblKp;
         private System.Windows.Forms.TabPage tabPage4;
-        private NationalInstruments.UI.WindowsForms.NumericEdit numericEdit4;
+        private NationalInstruments.UI.WindowsForms.NumericEdit neTimeConstant;
         private NationalInstruments.UI.WindowsForms.NumericEdit neKh;
         private NationalInstruments.UI.WindowsForms.NumericEdit neTimeDelay;
         private NationalInstruments.UI.WindowsForms.NumericEdit neTemperautureEnvironment;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblTimeConstant;
         private System.Windows.Forms.Label lblTimeDelay;
         private System.Windows.Forms.Label lblKh;
         private System.Windows.Forms.Label label1;

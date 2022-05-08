@@ -45,7 +45,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
         /// <summary>
         ///  Environmental (room) temperature.
         /// </summary>
-        public double TemperatureEnvironment { get; set; } = 20;
+        public double TemperatureEnvironment { get; set; } = 25;
 
         /// <summary>
         /// Time Delayed Control signal to the heater. Shouldn't be exposed.
@@ -57,7 +57,7 @@ namespace USN_ControlSystem_NI_MS.Controllers
         /// </summary>
         public double ControlSignal { get; set; } = 2;
 
-        public int TimeConstant { get; set; } = 22;
+        public double TimeConstant { get; set; } = 22;
 
         public double HeaterGain { get; set; } = 3.5;
 
