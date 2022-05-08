@@ -72,7 +72,7 @@ namespace USN_ControlSystem_NI_MS
             this.lblTd = new System.Windows.Forms.Label();
             this.lblTi = new System.Windows.Forms.Label();
             this.lblKp = new System.Windows.Forms.Label();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.ModelParameters = new System.Windows.Forms.TabPage();
             this.lblTimeConstant = new System.Windows.Forms.Label();
             this.lblTimeDelay = new System.Windows.Forms.Label();
             this.lblKh = new System.Windows.Forms.Label();
@@ -81,8 +81,13 @@ namespace USN_ControlSystem_NI_MS
             this.neKh = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.neTimeDelay = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.neTemperautureEnvironment = new NationalInstruments.UI.WindowsForms.NumericEdit();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.LowPassFilter = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.swLowPassFilter = new NationalInstruments.UI.WindowsForms.Switch();
+            this.lblEnableLowPass = new System.Windows.Forms.Label();
+            this.lblDisableLowpassFilter = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numericEdit1 = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.neControlSignal)).BeginInit();
@@ -99,11 +104,14 @@ namespace USN_ControlSystem_NI_MS
             ((System.ComponentModel.ISupportInitialize)(this.neTd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTi)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neGain)).BeginInit();
-            this.tabPage4.SuspendLayout();
+            this.ModelParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.neTimeConstant)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neKh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTimeDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTemperautureEnvironment)).BeginInit();
+            this.LowPassFilter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.swLowPassFilter)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericEdit1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -139,7 +147,7 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1194, 774);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "PI regulator";
+            this.tabPage1.Text = "s";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // lblControlSignalRampChange
@@ -288,7 +296,7 @@ namespace USN_ControlSystem_NI_MS
             // 
             this.yAxisTemperature.Caption = "Temperature [°C]";
             this.yAxisTemperature.Mode = NationalInstruments.UI.AxisMode.Fixed;
-            this.yAxisTemperature.Range = new NationalInstruments.UI.Range(0D, 60D);
+            this.yAxisTemperature.Range = new NationalInstruments.UI.Range(25D, 35D);
             // 
             // pltSetPoint
             // 
@@ -335,8 +343,8 @@ namespace USN_ControlSystem_NI_MS
             // tcView
             // 
             this.tcView.Controls.Add(this.ControllerParameters);
-            this.tcView.Controls.Add(this.tabPage4);
-            this.tcView.Controls.Add(this.tabPage3);
+            this.tcView.Controls.Add(this.ModelParameters);
+            this.tcView.Controls.Add(this.LowPassFilter);
             this.tcView.Location = new System.Drawing.Point(21, 23);
             this.tcView.Name = "tcView";
             this.tcView.SelectedIndex = 0;
@@ -505,23 +513,23 @@ namespace USN_ControlSystem_NI_MS
             this.lblKp.TabIndex = 0;
             this.lblKp.Text = "Gain";
             // 
-            // tabPage4
+            // ModelParameters
             // 
-            this.tabPage4.BackColor = System.Drawing.Color.LightGray;
-            this.tabPage4.Controls.Add(this.lblTimeConstant);
-            this.tabPage4.Controls.Add(this.lblTimeDelay);
-            this.tabPage4.Controls.Add(this.lblKh);
-            this.tabPage4.Controls.Add(this.label1);
-            this.tabPage4.Controls.Add(this.neTimeConstant);
-            this.tabPage4.Controls.Add(this.neKh);
-            this.tabPage4.Controls.Add(this.neTimeDelay);
-            this.tabPage4.Controls.Add(this.neTemperautureEnvironment);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(367, 305);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Model Parameters";
+            this.ModelParameters.BackColor = System.Drawing.Color.LightGray;
+            this.ModelParameters.Controls.Add(this.lblTimeConstant);
+            this.ModelParameters.Controls.Add(this.lblTimeDelay);
+            this.ModelParameters.Controls.Add(this.lblKh);
+            this.ModelParameters.Controls.Add(this.label1);
+            this.ModelParameters.Controls.Add(this.neTimeConstant);
+            this.ModelParameters.Controls.Add(this.neKh);
+            this.ModelParameters.Controls.Add(this.neTimeDelay);
+            this.ModelParameters.Controls.Add(this.neTemperautureEnvironment);
+            this.ModelParameters.Location = new System.Drawing.Point(4, 22);
+            this.ModelParameters.Name = "ModelParameters";
+            this.ModelParameters.Padding = new System.Windows.Forms.Padding(3);
+            this.ModelParameters.Size = new System.Drawing.Size(367, 305);
+            this.ModelParameters.TabIndex = 3;
+            this.ModelParameters.Text = "Model Parameters";
             // 
             // lblTimeConstant
             // 
@@ -591,14 +599,19 @@ namespace USN_ControlSystem_NI_MS
             this.neTemperautureEnvironment.TabIndex = 0;
             this.neTemperautureEnvironment.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.neTemperautureEnvironment_AfterChangeValue);
             // 
-            // tabPage3
+            // LowPassFilter
             // 
-            this.tabPage3.BackColor = System.Drawing.Color.LightGray;
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(367, 305);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Filter";
+            this.LowPassFilter.BackColor = System.Drawing.Color.LightGray;
+            this.LowPassFilter.Controls.Add(this.numericEdit1);
+            this.LowPassFilter.Controls.Add(this.label2);
+            this.LowPassFilter.Controls.Add(this.lblDisableLowpassFilter);
+            this.LowPassFilter.Controls.Add(this.lblEnableLowPass);
+            this.LowPassFilter.Controls.Add(this.swLowPassFilter);
+            this.LowPassFilter.Location = new System.Drawing.Point(4, 22);
+            this.LowPassFilter.Name = "LowPassFilter";
+            this.LowPassFilter.Size = new System.Drawing.Size(367, 305);
+            this.LowPassFilter.TabIndex = 2;
+            this.LowPassFilter.Text = "Low Pass Filter";
             // 
             // tabPage2
             // 
@@ -609,6 +622,48 @@ namespace USN_ControlSystem_NI_MS
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Digital twin";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // swLowPassFilter
+            // 
+            this.swLowPassFilter.Location = new System.Drawing.Point(21, 194);
+            this.swLowPassFilter.Name = "swLowPassFilter";
+            this.swLowPassFilter.Size = new System.Drawing.Size(64, 96);
+            this.swLowPassFilter.SwitchStyle = NationalInstruments.UI.SwitchStyle.VerticalToggle3D;
+            this.swLowPassFilter.TabIndex = 0;
+            // 
+            // lblEnableLowPass
+            // 
+            this.lblEnableLowPass.AutoSize = true;
+            this.lblEnableLowPass.Location = new System.Drawing.Point(23, 208);
+            this.lblEnableLowPass.Name = "lblEnableLowPass";
+            this.lblEnableLowPass.Size = new System.Drawing.Size(62, 13);
+            this.lblEnableLowPass.TabIndex = 1;
+            this.lblEnableLowPass.Text = "Enable filter";
+            // 
+            // lblDisableLowpassFilter
+            // 
+            this.lblDisableLowpassFilter.AutoSize = true;
+            this.lblDisableLowpassFilter.Location = new System.Drawing.Point(23, 277);
+            this.lblDisableLowpassFilter.Name = "lblDisableLowpassFilter";
+            this.lblDisableLowpassFilter.Size = new System.Drawing.Size(64, 13);
+            this.lblDisableLowpassFilter.TabIndex = 2;
+            this.lblDisableLowpassFilter.Text = "Disable filter";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(18, 30);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "label2";
+            // 
+            // numericEdit1
+            // 
+            this.numericEdit1.Location = new System.Drawing.Point(140, 30);
+            this.numericEdit1.Name = "numericEdit1";
+            this.numericEdit1.Size = new System.Drawing.Size(120, 20);
+            this.numericEdit1.TabIndex = 4;
             // 
             // ControlSystem
             // 
@@ -636,12 +691,16 @@ namespace USN_ControlSystem_NI_MS
             ((System.ComponentModel.ISupportInitialize)(this.neTd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTi)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neGain)).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
+            this.ModelParameters.ResumeLayout(false);
+            this.ModelParameters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.neTimeConstant)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neKh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTimeDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.neTemperautureEnvironment)).EndInit();
+            this.LowPassFilter.ResumeLayout(false);
+            this.LowPassFilter.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.swLowPassFilter)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericEdit1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -684,12 +743,12 @@ namespace USN_ControlSystem_NI_MS
         private System.Windows.Forms.Label lblTd;
         private System.Windows.Forms.Label lblTi;
         private System.Windows.Forms.Label lblKp;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage ModelParameters;
         private NationalInstruments.UI.WindowsForms.NumericEdit neTimeConstant;
         private NationalInstruments.UI.WindowsForms.NumericEdit neKh;
         private NationalInstruments.UI.WindowsForms.NumericEdit neTimeDelay;
         private NationalInstruments.UI.WindowsForms.NumericEdit neTemperautureEnvironment;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage LowPassFilter;
         private System.Windows.Forms.Label lblTimeConstant;
         private System.Windows.Forms.Label lblTimeDelay;
         private System.Windows.Forms.Label lblKh;
@@ -701,6 +760,11 @@ namespace USN_ControlSystem_NI_MS
         private NationalInstruments.UI.WaveformPlot pltTemperatureOutlet;
         private NationalInstruments.UI.WindowsForms.NumericEdit neControlSignal;
         private System.Windows.Forms.Label lblControlSignalRampChange;
+        private System.Windows.Forms.Label lblDisableLowpassFilter;
+        private System.Windows.Forms.Label lblEnableLowPass;
+        private NationalInstruments.UI.WindowsForms.Switch swLowPassFilter;
+        private NationalInstruments.UI.WindowsForms.NumericEdit numericEdit1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -12,6 +12,7 @@ namespace USN_ControlSystem_NI_MS
         private PIDController _pidController;
         private OpcClient _opcClient;
         private AirHeaterModel _airHeaterModel;
+        private LowpassFilter _lowPassFilter;
 
         public ControlSystem()
         {
@@ -19,6 +20,7 @@ namespace USN_ControlSystem_NI_MS
             InitializePID();
             InitializeAirHeaterModel();
             InitializeControls();
+            InitializeLowPassFilter();
 
             var temperatureDaqHandler = new DAQReader("Dev3/ai0", 1, 5);
             var controlDaqHandler = new DAQWriter("Dev3/ao1", 0, 5);
@@ -27,6 +29,11 @@ namespace USN_ControlSystem_NI_MS
 
             //InitializeOPC();
             Task.Run(async () => await ControlAirHeater(_pidController, temperatureDaqHandler, controlDaqHandler));
+        }
+
+        private void InitializeLowPassFilter()
+        {
+            _lowPassFilter = new LowpassFilter();
         }
 
         private void InitializeControls()
@@ -40,7 +47,7 @@ namespace USN_ControlSystem_NI_MS
             neOutputMin.Value = _pidController.OutputMinimum;
             neOutputMax.Value = _pidController.OutputMaximum;
 
-            switchMode.Value = _pidController.Manual;
+            switchMode.Value = !_pidController.Manual;
             switchAntiWindup.Value = _pidController.AntiWindup;
 
             neControlSignal.Value = _airHeaterModel.ControlSignal;
@@ -74,7 +81,7 @@ namespace USN_ControlSystem_NI_MS
                 {
                     // Read temperature.
                     var voltage = daqReader.ReadFromDAQ();
-                    var temperature = VoltageConverter.Temperature1Converter(voltage);
+                    var temperature = _lowPassFilter.GetFilteredValue(VoltageConverter.Temperature1Converter(voltage));
 
                     // Write values to textboxes.
                     AppendTemperatureTextBox(String.Format("{0:0.00}", temperature));
@@ -82,7 +89,7 @@ namespace USN_ControlSystem_NI_MS
 
                     pltTemperature.PlotYAppend(temperature);
                     pltSetPoint.PlotYAppend(sliderSetpoint.Value);
-                    pltTemperatureOutlet.PlotYAppend(_airHeaterModel.CalculateOutput());
+                    //pltTemperatureOutlet.PlotYAppend(_airHeaterModel.CalculateOutput());
 
                     // Update process variable in PID control.
                     pidControl.ProcessVariable = temperature;
@@ -91,13 +98,13 @@ namespace USN_ControlSystem_NI_MS
                     var u = pidControl.GetControlSignal();
                     pltControlSignal.PlotYAppend(20 * u); // scale to percentage
                     AppendControlTextBox(String.Format("{0:0.00}", u));
-                    daqWriter.WriteToDAQ(1);
+                    daqWriter.WriteToDAQ(u);
 
                     // Write values to OPC UA Server.
                     //_opcClient.WriteNode("ns=2;s=MeasurementSites/USN/Temperature", temperature);
                     //_opcClient.WriteNode("ns=2;s=MeasurementSites/USN/ControlSignal", u);
 
-                    await Task.Delay(10);
+                    await Task.Delay(100);
                 }
             }
             catch (NationalInstruments.DAQmx.DaqException e)
@@ -114,7 +121,7 @@ namespace USN_ControlSystem_NI_MS
 
         public void InitializePID()
         {
-            _pidController = new PIDController(0.5, 10, 0);
+            _pidController = new PIDController(5, 10, 0);
             _pidController.TimeStep = 1;
             _pidController.SetPoint = 20;
         }
@@ -174,11 +181,21 @@ namespace USN_ControlSystem_NI_MS
             {
                 sliderControlSignal.Enabled = false;
                 neControlSignal.Enabled = false;
+
+                if (_pidController != null)
+                {
+                    _pidController.Manual = false;
+                }
             }
             else
             {
                 sliderControlSignal.Enabled = true;
                 neControlSignal.Enabled = true;
+
+                if (_pidController != null)
+                {
+                    _pidController.Manual = true;
+                }
             }
         }
 
@@ -221,6 +238,10 @@ namespace USN_ControlSystem_NI_MS
             {
                 _airHeaterModel.ControlSignal = e.NewValue;
                 neControlSignal.Value = e.NewValue;
+            }
+            if (_pidController != null)
+            {
+                _pidController.ControlSignal = e.NewValue;
             }
         }
 

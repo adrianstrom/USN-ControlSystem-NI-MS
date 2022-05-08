@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace USN_ControlSystem_NI_MS.Controllers
+﻿namespace USN_ControlSystem_NI_MS.Controllers
 {
     public class PIDController
     {
@@ -13,18 +11,15 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         public double TimeStep { get; set; }
 
-        public event EventHandler PIDModeChanged;
-
         private bool _previousModeManual;
 
-        private bool _manual = false;
+        private bool _manual = true;
         public bool Manual
         {
             get => _manual;
             set
             {
                 _previousModeManual = _manual;
-                PIDModeChanged?.Invoke(null, null);
                 _manual = value;
             }
         }
@@ -38,22 +33,23 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         public double Error => SetPoint - ProcessVariable;
 
-        private double _lastState;
+        private double u_i_k_previous;
 
         public PIDController(double Kp, double Ti = default, double Td = default)
         {
             this.Kp = Kp;
             this.Ti = Ti;
             this.Td = Td;
-
-            PIDModeChanged += PIDController_PIDModeChanged;
         }
 
-        private void PIDController_PIDModeChanged(object sender, EventArgs e)
+        public bool Transferred = false;
+
+        private void BumplessTransfer()
         {
-            if (_previousModeManual && !Manual)
+            if (_previousModeManual && !Manual && !Transferred)
             {
-                _lastState = 0;
+                u_i_k_previous = 0;
+                Transferred = true;
             }
             else if (!_previousModeManual && Manual)
             {
@@ -76,16 +72,16 @@ namespace USN_ControlSystem_NI_MS.Controllers
 
         public double GetControlSignal()
         {
-            if (Manual)
-            {
-                return ControlSignal;
-            }
-            var u_p = Kp * Error;
-            var u_i = AntiWindUp((_lastState + (Kp / Ti) * TimeStep) * Error);
+            BumplessTransfer();
+            var u_man = ControlSignal;
+            var u_p = Manual ? 0 : Kp * Error;
+            var u_i = Manual ? 0 : AntiWindUp(u_i_k_previous + (Kp / Ti) * TimeStep * Error);
+            var u_d = 0;
 
-            var u_tot = u_p + u_i;
-            _lastState = u_p + u_i;
-            return u_tot;
+            var u_tot = u_man + u_p + u_i + u_d;
+
+            u_i_k_previous = u_i;
+            return AntiWindUp(u_tot);
         }
     }
 }
