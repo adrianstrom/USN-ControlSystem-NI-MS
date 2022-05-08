@@ -86,8 +86,8 @@ namespace USN_ControlSystem_NI_MS
             this.swLowPassFilter = new NationalInstruments.UI.WindowsForms.Switch();
             this.lblEnableLowPass = new System.Windows.Forms.Label();
             this.lblDisableLowpassFilter = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericEdit1 = new NationalInstruments.UI.WindowsForms.NumericEdit();
+            this.lblFilterTimeConstant = new System.Windows.Forms.Label();
+            this.neFilterTimeConstant = new NationalInstruments.UI.WindowsForms.NumericEdit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.neControlSignal)).BeginInit();
@@ -111,7 +111,7 @@ namespace USN_ControlSystem_NI_MS
             ((System.ComponentModel.ISupportInitialize)(this.neTemperautureEnvironment)).BeginInit();
             this.LowPassFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.swLowPassFilter)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neFilterTimeConstant)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -602,8 +602,8 @@ namespace USN_ControlSystem_NI_MS
             // LowPassFilter
             // 
             this.LowPassFilter.BackColor = System.Drawing.Color.LightGray;
-            this.LowPassFilter.Controls.Add(this.numericEdit1);
-            this.LowPassFilter.Controls.Add(this.label2);
+            this.LowPassFilter.Controls.Add(this.neFilterTimeConstant);
+            this.LowPassFilter.Controls.Add(this.lblFilterTimeConstant);
             this.LowPassFilter.Controls.Add(this.lblDisableLowpassFilter);
             this.LowPassFilter.Controls.Add(this.lblEnableLowPass);
             this.LowPassFilter.Controls.Add(this.swLowPassFilter);
@@ -630,6 +630,7 @@ namespace USN_ControlSystem_NI_MS
             this.swLowPassFilter.Size = new System.Drawing.Size(64, 96);
             this.swLowPassFilter.SwitchStyle = NationalInstruments.UI.SwitchStyle.VerticalToggle3D;
             this.swLowPassFilter.TabIndex = 0;
+            this.swLowPassFilter.StateChanged += new NationalInstruments.UI.ActionEventHandler(this.swLowPassFilter_StateChanged);
             // 
             // lblEnableLowPass
             // 
@@ -649,21 +650,22 @@ namespace USN_ControlSystem_NI_MS
             this.lblDisableLowpassFilter.TabIndex = 2;
             this.lblDisableLowpassFilter.Text = "Disable filter";
             // 
-            // label2
+            // lblFilterTimeConstant
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 30);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
+            this.lblFilterTimeConstant.AutoSize = true;
+            this.lblFilterTimeConstant.Location = new System.Drawing.Point(18, 32);
+            this.lblFilterTimeConstant.Name = "lblFilterTimeConstant";
+            this.lblFilterTimeConstant.Size = new System.Drawing.Size(114, 13);
+            this.lblFilterTimeConstant.TabIndex = 3;
+            this.lblFilterTimeConstant.Text = "Filter Time Constant [s]";
             // 
-            // numericEdit1
+            // neFilterTimeConstant
             // 
-            this.numericEdit1.Location = new System.Drawing.Point(140, 30);
-            this.numericEdit1.Name = "numericEdit1";
-            this.numericEdit1.Size = new System.Drawing.Size(120, 20);
-            this.numericEdit1.TabIndex = 4;
+            this.neFilterTimeConstant.Location = new System.Drawing.Point(140, 30);
+            this.neFilterTimeConstant.Name = "neFilterTimeConstant";
+            this.neFilterTimeConstant.Size = new System.Drawing.Size(120, 20);
+            this.neFilterTimeConstant.TabIndex = 4;
+            this.neFilterTimeConstant.AfterChangeValue += new NationalInstruments.UI.AfterChangeNumericValueEventHandler(this.neFilterTimeConstant_AfterChangeValue);
             // 
             // ControlSystem
             // 
@@ -700,7 +702,7 @@ namespace USN_ControlSystem_NI_MS
             this.LowPassFilter.ResumeLayout(false);
             this.LowPassFilter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.swLowPassFilter)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.neFilterTimeConstant)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -763,8 +765,8 @@ namespace USN_ControlSystem_NI_MS
         private System.Windows.Forms.Label lblDisableLowpassFilter;
         private System.Windows.Forms.Label lblEnableLowPass;
         private NationalInstruments.UI.WindowsForms.Switch swLowPassFilter;
-        private NationalInstruments.UI.WindowsForms.NumericEdit numericEdit1;
-        private System.Windows.Forms.Label label2;
+        private NationalInstruments.UI.WindowsForms.NumericEdit neFilterTimeConstant;
+        private System.Windows.Forms.Label lblFilterTimeConstant;
     }
 }
 

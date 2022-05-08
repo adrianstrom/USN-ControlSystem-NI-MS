@@ -19,8 +19,8 @@ namespace USN_ControlSystem_NI_MS
             InitializeComponent();
             InitializePID();
             InitializeAirHeaterModel();
-            InitializeControls();
             InitializeLowPassFilter();
+            InitializeControls();
 
             var temperatureDaqHandler = new DAQReader("Dev3/ai0", 1, 5);
             var controlDaqHandler = new DAQWriter("Dev3/ao1", 0, 5);
@@ -55,6 +55,9 @@ namespace USN_ControlSystem_NI_MS
             neTimeDelay.Value = _airHeaterModel.TimeDelay.TotalSeconds;
             neTimeConstant.Value = _airHeaterModel.TimeConstant;
 
+            neFilterTimeConstant.Value = _lowPassFilter.FilterTimeConstant.TotalSeconds;
+            swLowPassFilter.Value = _lowPassFilter.Enabled;
+
             neTemperautureEnvironment.Value = _airHeaterModel.TemperatureEnvironment;
             neKh.Value = _airHeaterModel.HeaterGain;
         }
@@ -81,7 +84,15 @@ namespace USN_ControlSystem_NI_MS
                 {
                     // Read temperature.
                     var voltage = daqReader.ReadFromDAQ();
-                    var temperature = _lowPassFilter.GetFilteredValue(VoltageConverter.Temperature1Converter(voltage));
+                    double temperature;
+                    if (_lowPassFilter.Enabled)
+                    {
+                        temperature = _lowPassFilter.GetFilteredValue(VoltageConverter.Temperature1Converter(voltage));
+                    }
+                    else
+                    {
+                        temperature = VoltageConverter.Temperature1Converter(voltage);
+                    }
 
                     // Write values to textboxes.
                     AppendTemperatureTextBox(String.Format("{0:0.00}", temperature));
@@ -274,6 +285,29 @@ namespace USN_ControlSystem_NI_MS
             if (_airHeaterModel != null)
             {
                 _airHeaterModel.TimeConstant = e.NewValue;
+            }
+        }
+
+        private void neFilterTimeConstant_AfterChangeValue(object sender, NationalInstruments.UI.AfterChangeNumericValueEventArgs e)
+        {
+            if (_lowPassFilter != null)
+            {
+                _lowPassFilter.FilterTimeConstant = TimeSpan.FromSeconds(e.NewValue);
+            }
+        }
+
+        private void swLowPassFilter_StateChanged(object sender, NationalInstruments.UI.ActionEventArgs e)
+        {
+            if (_lowPassFilter != null)
+            {
+                if (swLowPassFilter.Value == true)
+                {
+                    _lowPassFilter.Enabled = true;
+                }
+                else
+                {
+                    _lowPassFilter.Enabled = false;
+                }
             }
         }
     }
