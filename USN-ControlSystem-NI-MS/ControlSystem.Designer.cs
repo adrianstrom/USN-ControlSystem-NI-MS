@@ -507,11 +507,11 @@ namespace USN_ControlSystem_NI_MS
             // lblKp
             // 
             this.lblKp.AutoSize = true;
-            this.lblKp.Location = new System.Drawing.Point(18, 30);
+            this.lblKp.Location = new System.Drawing.Point(18, 32);
             this.lblKp.Name = "lblKp";
-            this.lblKp.Size = new System.Drawing.Size(29, 13);
+            this.lblKp.Size = new System.Drawing.Size(61, 13);
             this.lblKp.TabIndex = 0;
-            this.lblKp.Text = "Gain";
+            this.lblKp.Text = "Gain [V/°C]";
             // 
             // ModelParameters
             // 
@@ -561,7 +561,7 @@ namespace USN_ControlSystem_NI_MS
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 30);
+            this.label1.Location = new System.Drawing.Point(18, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 13);
             this.label1.TabIndex = 4;
@@ -635,7 +635,7 @@ namespace USN_ControlSystem_NI_MS
             // lblEnableLowPass
             // 
             this.lblEnableLowPass.AutoSize = true;
-            this.lblEnableLowPass.Location = new System.Drawing.Point(23, 208);
+            this.lblEnableLowPass.Location = new System.Drawing.Point(23, 194);
             this.lblEnableLowPass.Name = "lblEnableLowPass";
             this.lblEnableLowPass.Size = new System.Drawing.Size(62, 13);
             this.lblEnableLowPass.TabIndex = 1;
